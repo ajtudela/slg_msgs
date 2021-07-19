@@ -26,6 +26,22 @@ geometry_msgs::Pose segment2DToPose(Segment2D segment){
 	return poseMsg;
 }
 
+/* Segment2D to PointCloud */
+pcloud::Ptr segment2DToPointCloud(Segment2D segment){
+	pcloud::Ptr segmentCloudPtr(new pcl::PointCloud<pcl::PointXYZRGB>);
+
+	std::vector<Point2D> points = segment.getPoints();
+	for(auto p: points){
+		pcl::PointXYZRGB point;
+		point.x = p.x;
+		point.y = p.y;
+		point.z = 0.0;
+		point.rgb = 0;
+		segmentCloudPtr->push_back(point);
+	}
+
+	return segmentCloudPtr;
+}
 
 /* Convert a segment message to a segment 2D */
 Segment2D segmentMsgToSegment2D(simple_laser_geometry::Segment segmentMsg){

@@ -15,6 +15,10 @@
 // C++
 #include <vector>
 
+// PCL
+#include <pcl/point_types.h>
+#include <pcl/point_cloud.h>
+
 // ROS
 #include <geometry_msgs/Pose.h>
 #include <std_msgs/Header.h>
@@ -24,7 +28,11 @@
 #include <simple_laser_geometry/SegmentStamped.h>
 #include <simple_laser_geometry/SegmentArray.h>
 
+// Typedef for easier readability
+typedef pcl::PointCloud<pcl::PointXYZRGB> pcloud;
+
 geometry_msgs::Pose segment2DToPose(Segment2D segment);
+pcloud::Ptr segment2DToPointCloud(Segment2D segment);
 
 Segment2D segmentMsgToSegment2D(simple_laser_geometry::Segment segmentMsg);
 simple_laser_geometry::Segment segment2DToSegmentMsg(Segment2D segment);

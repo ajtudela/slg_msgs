@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   tf
+  pcl_ros
   message_generation
 )
 
@@ -40,7 +41,7 @@ generate_messages(
 catkin_package(
  INCLUDE_DIRS include
  LIBRARIES ${PROJECT_NAME} 
- CATKIN_DEPENDS roscpp std_msgs geometry_msgs tf message_runtime
+ CATKIN_DEPENDS roscpp std_msgs geometry_msgs tf pcl_ros message_runtime
 )
 
 ###########
