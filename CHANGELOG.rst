@@ -1,7 +1,11 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Changelog for package simple_laser_geometry
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-1.0.1 (19-07-2020)
+1.0.3 (21-07-2020)
+------------------
+* Now using slg namespace.
+
+1.0.2 (19-07-2020)
 ------------------
 * Added segment2D to PCL conversion.
 

@@ -14,7 +14,7 @@
 #include "simple_laser_geometry/conversions.h"
 
 /* Convert segment to Pose */
-geometry_msgs::Pose segment2DToPose(Segment2D segment){
+geometry_msgs::Pose slg::segment2DToPose(Segment2D segment){
 	// Convert segment to tf pose
 	tf::Pose pose;
 	pose.setOrigin({segment.centroid().x, segment.centroid().y, 0.0});
@@ -27,7 +27,7 @@ geometry_msgs::Pose segment2DToPose(Segment2D segment){
 }
 
 /* Segment2D to PointCloud */
-pcloud::Ptr segment2DToPointCloud(Segment2D segment){
+pcloud::Ptr slg::segment2DToPointCloud(Segment2D segment){
 	pcloud::Ptr segmentCloudPtr(new pcl::PointCloud<pcl::PointXYZRGB>);
 
 	std::vector<Point2D> points = segment.getPoints();
@@ -44,7 +44,7 @@ pcloud::Ptr segment2DToPointCloud(Segment2D segment){
 }
 
 /* Convert a segment message to a segment 2D */
-Segment2D segmentMsgToSegment2D(simple_laser_geometry::Segment segmentMsg){
+Segment2D slg::segmentMsgToSegment2D(simple_laser_geometry::Segment segmentMsg){
 	Point2D lastPointPriorSeg(segmentMsg.lastPointPriorSeg.x, segmentMsg.lastPointPriorSeg.y);
 	Point2D firstPointNextSeg(segmentMsg.firstPointNextSeg.x, segmentMsg.firstPointNextSeg.y);
 
@@ -65,7 +65,7 @@ Segment2D segmentMsgToSegment2D(simple_laser_geometry::Segment segmentMsg){
 }
 
 /* Convert a segment 2D to a segment message */
-simple_laser_geometry::Segment segment2DToSegmentMsg(Segment2D segment){
+simple_laser_geometry::Segment slg::segment2DToSegmentMsg(Segment2D segment){
 	simple_laser_geometry::Segment segmentMsg;
 
 	// Transform the segment in message
@@ -88,7 +88,7 @@ simple_laser_geometry::Segment segment2DToSegmentMsg(Segment2D segment){
 }
 
 /* Convert a segment 2D to a segment stamped message */
-simple_laser_geometry::SegmentStamped segment2DToSegmentStampedMsg(std_msgs::Header header, Segment2D segment){
+simple_laser_geometry::SegmentStamped slg::segment2DToSegmentStampedMsg(std_msgs::Header header, Segment2D segment){
 	simple_laser_geometry::SegmentStamped segmentMsg;
 
 	// Header of the message
@@ -114,7 +114,7 @@ simple_laser_geometry::SegmentStamped segment2DToSegmentStampedMsg(std_msgs::Hea
 }
 
 /* Convert a segment array message to a vecctor of segments */
-std::vector<Segment2D> segmentArrayMsgToSegmentVector(simple_laser_geometry::SegmentArray segmentArrayMsg){
+std::vector<Segment2D> slg::segmentArrayMsgToSegmentVector(simple_laser_geometry::SegmentArray segmentArrayMsg){
 	std::vector<Segment2D> segments;
 
 	// Read segments
@@ -126,7 +126,7 @@ std::vector<Segment2D> segmentArrayMsgToSegmentVector(simple_laser_geometry::Seg
 }
 
 /* Convert a vecctor of segments to a segment array message */
-simple_laser_geometry::SegmentArray segmentVectorToSegmentArray(std_msgs::Header header, std::vector<Segment2D> segments){
+simple_laser_geometry::SegmentArray slg::segmentVectorToSegmentArray(std_msgs::Header header, std::vector<Segment2D> segments){
 	simple_laser_geometry::SegmentArray segmentArrayMsg;
 
 	// Header of the message
