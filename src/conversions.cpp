@@ -27,7 +27,7 @@ geometry_msgs::Pose slg::segment2DToPose(Segment2D segment){
 }
 
 /* Segment2D to PointCloud */
-pcloud::Ptr slg::segment2DToPointCloud(Segment2D segment){
+pcloud::Ptr slg::segment2DToPointCloud(Segment2D segment, std_msgs::Header segHeader){
 	pcloud::Ptr segmentCloudPtr(new pcl::PointCloud<pcl::PointXYZRGB>);
 
 	std::vector<Point2D> points = segment.getPoints();
@@ -39,7 +39,7 @@ pcloud::Ptr slg::segment2DToPointCloud(Segment2D segment){
 		point.rgb = 0;
 		segmentCloudPtr->push_back(point);
 	}
-
+	segmentCloudPtr->header.frame_id = segHeader.frame_id;
 	return segmentCloudPtr;
 }
 
