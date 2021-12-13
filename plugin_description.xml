@@ -1,0 +1,5 @@
+<library path="lib/libsimple_laser_geometry">
+	<class name="simple_laser_geometry/SegmentArray" type="simple_laser_geometry::segmentArrayDisplay" base_class_type="rviz::Display">
+		<description>Displays the data from a simple_laser_geometry::SegmentArray message as points in the world.</description>
+	</class>
+</library>
