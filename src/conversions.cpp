@@ -58,8 +58,8 @@ pcloud::Ptr slg::segment2DToPointCloud(Segment2D segment, std_msgs::Header segHe
 
 /* Convert a segment message to a segment 2D */
 Segment2D slg::segmentMsgToSegment2D(simple_laser_geometry::Segment segmentMsg){
-	Point2D lastPointPriorSeg(segmentMsg.lastPointPriorSeg.x, segmentMsg.lastPointPriorSeg.y);
-	Point2D firstPointNextSeg(segmentMsg.firstPointNextSeg.x, segmentMsg.firstPointNextSeg.y);
+	Point2D lastPointPriorSeg(segmentMsg.last_point_prior_segment.x, segmentMsg.last_point_prior_segment.y);
+	Point2D firstPointNextSeg(segmentMsg.first_point_next_segment.x, segmentMsg.first_point_next_segment.y);
 
 	Segment2D currSegment;
 
@@ -70,7 +70,7 @@ Segment2D slg::segmentMsgToSegment2D(simple_laser_geometry::Segment segmentMsg){
 
 	currSegment.setId(segmentMsg.id);
 	currSegment.setLabel((Label)segmentMsg.label);
-	currSegment.setAngularDistanceToClosestBoundary(segmentMsg.angleClose);
+	currSegment.setAngularDistanceToClosestBoundary(segmentMsg.angular_distance);
 	currSegment.setPriorSegment(lastPointPriorSeg);
 	currSegment.setNextSegment(firstPointNextSeg);
 
@@ -84,11 +84,11 @@ simple_laser_geometry::Segment slg::segment2DToSegmentMsg(Segment2D segment){
 	// Transform the segment in message
 	segmentMsg.id = segment.getId();
 	segmentMsg.label = segment.getLabel();
-	segmentMsg.angleClose = segment.getAngularDistanceToClosestBoundary();
-	segmentMsg.lastPointPriorSeg.x = segment.getPriorSegment().x;
-	segmentMsg.lastPointPriorSeg.y = segment.getPriorSegment().y;
-	segmentMsg.firstPointNextSeg.x = segment.getNextSegment().x;
-	segmentMsg.firstPointNextSeg.y = segment.getNextSegment().y;
+	segmentMsg.angular_distance = segment.getAngularDistanceToClosestBoundary();
+	segmentMsg.last_point_prior_segment.x = segment.getPriorSegment().x;
+	segmentMsg.last_point_prior_segment.y = segment.getPriorSegment().y;
+	segmentMsg.first_point_next_segment.x = segment.getNextSegment().x;
+	segmentMsg.first_point_next_segment.y = segment.getNextSegment().y;
 
 	for(Point2D point: segment.getPoints()){
 		geometry_msgs::Point gPoint;
@@ -110,11 +110,11 @@ simple_laser_geometry::SegmentStamped slg::segment2DToSegmentStampedMsg(std_msgs
 	// Transform the segment in message
 	segmentMsg.id = segment.getId();
 	segmentMsg.label = segment.getLabel();
-	segmentMsg.angleClose = segment.getAngularDistanceToClosestBoundary();
-	segmentMsg.lastPointPriorSeg.x = segment.getPriorSegment().x;
-	segmentMsg.lastPointPriorSeg.y = segment.getPriorSegment().y;
-	segmentMsg.firstPointNextSeg.x = segment.getNextSegment().x;
-	segmentMsg.firstPointNextSeg.y = segment.getNextSegment().y;
+	segmentMsg.angular_distance = segment.getAngularDistanceToClosestBoundary();
+	segmentMsg.last_point_prior_segment.x = segment.getPriorSegment().x;
+	segmentMsg.last_point_prior_segment.y = segment.getPriorSegment().y;
+	segmentMsg.first_point_next_segment.x = segment.getNextSegment().x;
+	segmentMsg.first_point_next_segment.y = segment.getNextSegment().y;
 
 	for(Point2D point: segment.getPoints()){
 		geometry_msgs::Point gPoint;
