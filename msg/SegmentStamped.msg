@@ -5,16 +5,16 @@
 # Segment messages can be used as an input to a classifier such as a person detector, or for annotating
 # sensor_msgs/Laserscan messages with groundtruth person tracks.
 
-std_msgs/Header 		header				# Standard message header.
-uint64 					id					# Id of the segment
-string 					label				# Label of the segment
-float64 				angleClose			# Angular distance to the closest boundary (in rads)
-geometry_msgs/Point[] 	points				# Points per segment
-geometry_msgs/Point 	lastPointPriorSeg	# Last point of the previous segment
-geometry_msgs/Point 	firstPointNextSeg	# First point of the next segment
+std_msgs/Header 		header						# Standard message header.
+uint64 					id							# Id of the segment
+uint32 					label						# Label of the segment
+float64 				angular_distance			# Angular distance to the closest boundary (in rads)
+geometry_msgs/Point 	last_point_prior_segment	# Last point of the previous segment
+geometry_msgs/Point 	first_point_next_segment	# First point of the next segment
+geometry_msgs/Point[] 	points						# Points per segment
 
 # Type of the labels
-string 					BACKGROUND = background
-string 					PERSON = person
-string 					PERSONCANE = personcane
-string 					PERSONWHEELCHAIR = personwheelchair
+uint32 					BACKGROUND = 0
+uint32 					PERSON = 1
+uint32 					PERSON_CANE = 2
+uint32 					PERSON_WHEEL_CHAIR = 3
