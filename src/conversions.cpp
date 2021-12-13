@@ -13,6 +13,19 @@
 
 #include "simple_laser_geometry/conversions.h"
 
+/* Convert Point2D to geometry_msgs::Point */
+geometry_msgs::Point slg::point2DToGeometryPoint(Point2D point){
+	geometry_msgs::Point gPoint;
+	gPoint.x = point.x;
+	gPoint.y = point.y;
+	return gPoint;
+}
+
+/* Convert geometry_msgs::Point to Point2D */
+Point2D slg::geometryPointToPoint2D(geometry_msgs::Point gpoint){
+	return Point2D(gpoint.x, gpoint.y);
+}
+
 /* Convert segment to Pose */
 geometry_msgs::Pose slg::segment2DToPose(Segment2D segment){
 	// Convert segment to tf pose

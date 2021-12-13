@@ -1,6 +1,11 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Changelog for package simple_laser_geometry
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.1.0 (13-12-2021)
+------------------
+* Adding conversion for Point2D a geometry_msgs.
+
 1.0.3 (21-07-2021)
 ------------------
 * Now using slg namespace.

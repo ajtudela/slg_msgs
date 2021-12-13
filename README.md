@@ -4,7 +4,8 @@
 ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
 ## Overview
-ROS package that contains classes and messages to interact with laser related geometry. Useful to use with LaserScan. Contains three classes:
+ROS package that contains classes and messages to interact with laser related geometry and functions to convert them to ROS standard.
+Useful to use with LaserScan. Contains three classes:
 
  * **`Point2D`**
 
