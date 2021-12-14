@@ -48,9 +48,9 @@ class Segment2D{
 		void clear() 						{ points.clear(); id = 0; label = BACKGROUND; }
 		double width() 			const		{ return (points.back() - points.front()).length(); }
 		double widthSquared() 	const		{ return (points.back() - points.front()).lengthSquared(); }
-		Point2D firstPoint()					{ return points.front(); }
-		Point2D lastPoint()					{ return points.back(); }
-		Point2D vector()						{ return points.back() - points.front(); }
+		Point2D firstPoint()	const		{ return points.front(); }
+		Point2D lastPoint()		const		{ return points.back(); }
+		Point2D vector()		const		{ return points.back() - points.front(); }
 		double minAngle()		const		{ return points.front().angle(); }
 		double maxAngle()		const		{ return points.back().angle(); }
 		double meanAngle()		const		{ return (points.front().angle() + points.back().angle()) / 2.0; }
