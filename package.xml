@@ -1,24 +1,18 @@
 <?xml version="1.0"?>
 <package format="2">
 	<name>simple_laser_geometry</name>
-	<version>2.1.0</version>
+	<version>3.0.0</version>
 	<description>This package contains classes and messages to interact with laser related geometry. Useful to use with LaserScan.</description>
 	<maintainer email="ajtudela@gmail.com">Alberto Tudela</maintainer>
 	<license>MIT</license>
 	<author email="ajtudela@gmail.com">Alberto Tudela</author>
 	<buildtool_depend>catkin</buildtool_depend>
-	<build_depend>roscpp</build_depend>
-	<build_depend>roslib</build_depend>
-	<build_depend>std_msgs</build_depend>
-	<build_depend>geometry_msgs</build_depend>
-	<build_depend>tf</build_depend>
-	<build_depend>pcl_ros</build_depend>
+	<depend>roscpp</depend>
+	<depend>roslib</depend>
+	<depend>std_msgs</depend>
+	<depend>geometry_msgs</depend>
+	<depend>tf</depend>
+	<depend>pcl_ros</depend>
 	<build_depend>message_generation</build_depend>
-	<exec_depend>roscpp</exec_depend>
-	<exec_depend>roslib</exec_depend>
-	<exec_depend>std_msgs</exec_depend>
-	<exec_depend>geometry_msgs</exec_depend>
-	<exec_depend>tf</exec_depend>
-	<exec_depend>pcl_ros</exec_depend>
 	<exec_depend>message_runtime</exec_depend>
 </package>

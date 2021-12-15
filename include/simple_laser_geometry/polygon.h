@@ -32,6 +32,7 @@ const std::numeric_limits<double> DOUBLE;
 const double MIN = DOUBLE.min();
 const double MAX = DOUBLE.max();
 
+namespace slg{
 struct Edge{
 	Point2D a, b;
 	Edge(Point2D a = Point2D(0.0, 0.0), Point2D b = Point2D(0.0, 0.0)): a(a), b(b) {}
@@ -107,4 +108,6 @@ class Polygon{
 		std::string name;
 		std::vector<Edge> edges;
 };
+}
+
 #endif

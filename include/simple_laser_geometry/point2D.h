@@ -15,6 +15,8 @@
 #include <cmath>
 #include <iostream>
 
+namespace slg{
+
 // Label
 enum Label{BACKGROUND, PERSON};
 
@@ -65,5 +67,5 @@ struct Point2D{
 		double y;
 		Label label;
 };
-
+}
 #endif

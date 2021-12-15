@@ -18,6 +18,7 @@
 
 #include "point2D.h"
 
+namespace slg{
 class Segment2D{
 	public:
 		Segment2D(){id = 0; label = BACKGROUND;}
@@ -144,5 +145,6 @@ class Segment2D{
 		std::vector<Point2D> points;
 		Point2D lastPointPriorSeg, firstPointNextSeg, lastCentroid;
 };
+}
 
 #endif

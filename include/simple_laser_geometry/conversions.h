@@ -34,20 +34,20 @@
 typedef pcl::PointCloud<pcl::PointXYZRGB> pcloud;
 
 namespace slg{
-geometry_msgs::Point 	point2DToGeometryPoint(Point2D point);
-Point2D  				geometryPointToPoint2D(geometry_msgs::Point gPoint);
+geometry_msgs::Point 	point2DToGeometryPoint(slg::Point2D point);
+slg::Point2D  				geometryPointToPoint2D(geometry_msgs::Point gPoint);
 
-geometry_msgs::Pose 	segment2DToPose(Segment2D segment);
-pcloud::Ptr 			segment2DToPointCloud(Segment2D segment, std_msgs::Header segHeader);
+geometry_msgs::Pose 	segment2DToPose(slg::Segment2D segment);
+pcloud::Ptr 			segment2DToPointCloud(slg::Segment2D segment, std_msgs::Header segHeader);
 
 Segment2D 								segmentMsgToSegment2D(simple_laser_geometry::Segment segmentMsg);
-simple_laser_geometry::Segment 			segment2DToSegmentMsg(Segment2D segment);
-simple_laser_geometry::SegmentStamped 	segment2DToSegmentStampedMsg(std_msgs::Header header, Segment2D segment);
+simple_laser_geometry::Segment 			segment2DToSegmentMsg(slg::Segment2D segment);
+simple_laser_geometry::SegmentStamped 	segment2DToSegmentStampedMsg(std_msgs::Header header, slg::Segment2D segment);
 
-std::vector<Segment2D> 					segmentArrayMsgToSegmentVector(simple_laser_geometry::SegmentArray segmentArrayMsg);
-simple_laser_geometry::SegmentArray 	segmentVectorToSegmentArray(std_msgs::Header header, std::vector<Segment2D> segments);
+std::vector<slg::Segment2D> 			segmentArrayMsgToSegmentVector(simple_laser_geometry::SegmentArray segmentArrayMsg);
+simple_laser_geometry::SegmentArray 	segmentVectorToSegmentArray(std_msgs::Header header, std::vector<slg::Segment2D> segments);
 
-geometry_msgs::Polygon 		polygonToGeometryPolygon(Polygon polygon);
-Polygon						geometryPolygonToPolygon(geometry_msgs::Polygon gPolygon);
+geometry_msgs::Polygon 				polygonToGeometryPolygon(slg::Polygon polygon);
+slg::Polygon						geometryPolygonToPolygon(geometry_msgs::Polygon gPolygon);
 }
 #endif

@@ -2,6 +2,10 @@
 Changelog for package simple_laser_geometry
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.0.0 (15-12-2021)
+------------------
+* Using slg namespace for Point2D, Segment2D and polygon.
+
 2.1.0 (15-12-2021)
 ------------------
 * Adding conversion for polygon to geometry_msgs.
