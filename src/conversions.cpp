@@ -22,8 +22,8 @@ geometry_msgs::Point slg::point2DToGeometryPoint(Point2D point){
 }
 
 /* Convert geometry_msgs::Point to Point2D */
-Point2D slg::geometryPointToPoint2D(geometry_msgs::Point gpoint){
-	return Point2D(gpoint.x, gpoint.y);
+Point2D slg::geometryPointToPoint2D(geometry_msgs::Point gPoint){
+	return Point2D(gPoint.x, gPoint.y);
 }
 
 /* Convert segment to Pose */
@@ -126,7 +126,7 @@ simple_laser_geometry::SegmentStamped slg::segment2DToSegmentStampedMsg(std_msgs
 	return segmentMsg;
 }
 
-/* Convert a segment array message to a vecctor of segments */
+/* Convert a segment array message to a vector of segments */
 std::vector<Segment2D> slg::segmentArrayMsgToSegmentVector(simple_laser_geometry::SegmentArray segmentArrayMsg){
 	std::vector<Segment2D> segments;
 
@@ -138,7 +138,7 @@ std::vector<Segment2D> slg::segmentArrayMsgToSegmentVector(simple_laser_geometry
 	return segments;
 }
 
-/* Convert a vecctor of segments to a segment array message */
+/* Convert a vector of segments to a segment array message */
 simple_laser_geometry::SegmentArray slg::segmentVectorToSegmentArray(std_msgs::Header header, std::vector<Segment2D> segments){
 	simple_laser_geometry::SegmentArray segmentArrayMsg;
 
@@ -151,4 +151,44 @@ simple_laser_geometry::SegmentArray slg::segmentVectorToSegmentArray(std_msgs::H
 	}
 
 	return segmentArrayMsg;
+}
+
+/* Convert a polygon to a geometry polygon */
+geometry_msgs::Polygon slg::polygonToGeometryPolygon(Polygon polygon){
+	geometry_msgs::Polygon gPolygon;
+
+	for(Edge edge: polygon.getEdges()){
+		Point2D p = edge.a;
+		geometry_msgs::Point32 gPoint;
+		gPoint.x = p.x;
+		gPoint.y = p.y;
+		gPoint.z = 0.0;
+		gPolygon.points.push_back(gPoint);
+	}
+
+	return gPolygon;
+}
+
+/* Convert a geometry polygon to a polygon */
+Polygon slg::geometryPolygonToPolygon(geometry_msgs::Polygon gPolygon){
+	Polygon polygon;
+
+	// Read n-1 points
+	for(int i = 0; i < gPolygon.points.size()-1; i++){
+		geometry_msgs::Point32 currPoint = gPolygon.points[i];
+		geometry_msgs::Point32 nextPoint = gPolygon.points[i+1];
+
+		Point2D a(currPoint.x, currPoint.y);
+		Point2D b(nextPoint.x, nextPoint.y);
+		polygon.addEdge({a,b});
+	}
+	// Add the last edge
+	geometry_msgs::Point32 firstPoint = gPolygon.points[0];
+	geometry_msgs::Point32 lastPoint = gPolygon.points[gPolygon.points.size()-1];
+
+	Point2D a(lastPoint.x, lastPoint.y);
+	Point2D b(firstPoint.x, firstPoint.y);
+	polygon.addEdge({a,b});
+
+	return polygon;
 }

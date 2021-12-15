@@ -2,13 +2,17 @@
 Changelog for package simple_laser_geometry
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.1.0 (15-12-2021)
+------------------
+* Adding conversion for polygon to geometry_msgs.
+
 2.0.0 (13-12-2021)
 ------------------
 * Rename internal message field to comply with ROS standard.
 
 1.1.0 (13-12-2021)
 ------------------
-* Adding conversion for Point2D a geometry_msgs.
+* Adding conversion for Point2D to geometry_msgs.
 
 1.0.3 (21-07-2021)
 ------------------

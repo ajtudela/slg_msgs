@@ -20,9 +20,11 @@
 #include <pcl/point_cloud.h>
 
 // ROS
+#include <geometry_msgs/Polygon.h>
 #include <geometry_msgs/Pose.h>
 #include <std_msgs/Header.h>
 
+#include <simple_laser_geometry/polygon.h>
 #include <simple_laser_geometry/segment2D.h>
 #include <simple_laser_geometry/Segment.h>
 #include <simple_laser_geometry/SegmentStamped.h>
@@ -33,7 +35,7 @@ typedef pcl::PointCloud<pcl::PointXYZRGB> pcloud;
 
 namespace slg{
 geometry_msgs::Point 	point2DToGeometryPoint(Point2D point);
-Point2D  				geometryPointToPoint2D(geometry_msgs::Point point);
+Point2D  				geometryPointToPoint2D(geometry_msgs::Point gPoint);
 
 geometry_msgs::Pose 	segment2DToPose(Segment2D segment);
 pcloud::Ptr 			segment2DToPointCloud(Segment2D segment, std_msgs::Header segHeader);
@@ -44,5 +46,8 @@ simple_laser_geometry::SegmentStamped 	segment2DToSegmentStampedMsg(std_msgs::He
 
 std::vector<Segment2D> 					segmentArrayMsgToSegmentVector(simple_laser_geometry::SegmentArray segmentArrayMsg);
 simple_laser_geometry::SegmentArray 	segmentVectorToSegmentArray(std_msgs::Header header, std::vector<Segment2D> segments);
+
+geometry_msgs::Polygon 		polygonToGeometryPolygon(Polygon polygon);
+Polygon						geometryPolygonToPolygon(geometry_msgs::Polygon gPolygon);
 }
 #endif

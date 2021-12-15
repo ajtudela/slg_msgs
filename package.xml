@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
 	<name>simple_laser_geometry</name>
-	<version>2.0.0</version>
+	<version>2.1.0</version>
 	<description>This package contains classes and messages to interact with laser related geometry. Useful to use with LaserScan.</description>
 	<maintainer email="ajtudela@gmail.com">Alberto Tudela</maintainer>
 	<license>MIT</license>
