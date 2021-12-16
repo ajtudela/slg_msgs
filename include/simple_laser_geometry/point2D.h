@@ -18,7 +18,8 @@
 namespace slg{
 
 // Label
-enum Label{BACKGROUND, PERSON};
+typedef enum{BACKGROUND, PERSON, PERSON_CANE, PERSON_WHEEL_CHAIR}Label;
+static const char* labelStr[] = {"background", "person", "person_cane", "person_wheel_chair"};
 
 // Point 2D
 struct Point2D{

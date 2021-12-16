@@ -2,6 +2,10 @@
 Changelog for package simple_laser_geometry
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.1.0 (16-12-2021)
+------------------
+* Added string enums.
+
 3.0.0 (15-12-2021)
 ------------------
 * Using slg namespace for Point2D, Segment2D and polygon.
