@@ -29,7 +29,7 @@ struct Point2D{
 	static Point2D fromPolarCoords(const double r, const double phi) { return Point2D(r * cos(phi), r * sin(phi)); }
 	static Point2D NaN() { return Point2D(std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()); }
 
-	bool isNaN()           const { return (std::isnan(x) && std::isnan(y));}
+	bool isNaN()           const { return (std::isnan(x) || std::isnan(y));}
 
 	double length()        const { return sqrt(pow(x, 2.0) + pow(y, 2.0)); }
 	double lengthSquared() const { return pow(x, 2.0) + pow(y, 2.0); }
