@@ -57,20 +57,13 @@ struct Edge{
 class Polygon{
 	public:
 		int size() 							{ return edges.size(); }
+		bool empty() 			const		{ return edges.empty(); }
 		void clear()						{ edges.clear(); name.clear(); }
 		std::string getName()	const		{ return name; }
 		void setName(std::string name)		{ this->name = name; }
 		std::vector<Edge> getEdges() const	{ return edges; }
 		Edge getEdge(int e) const			{ return edges[e]; }
-		
-		bool empty(){
-			if( edges.size() == 0) return true;
-			else return false;
-		}
-		
-		void addEdge(Edge edge){
-			edges.push_back(edge);
-		}
+		void addEdge(Edge edge) 			{ edges.push_back(edge); }
 
 		bool contains(const Point2D& p) const{
 			auto c = 0;
@@ -80,10 +73,9 @@ class Polygon{
 
 		Point2D centroid() const{
 			std::vector<Point2D> points;
-			for(int e = 0; e < edges.size(); e++){
-				points.push_back(edges[e].a);
+			for(const auto& edge: edges){
+				points.push_back(edge.a);
 			}
-			
 			Point2D sum = std::accumulate(points.begin(), points.end(), Point2D(0.0,0.0));
 			return sum / points.size();
 		}

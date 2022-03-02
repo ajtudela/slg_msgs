@@ -44,7 +44,7 @@ pcloud::Ptr slg::segment2DToPointCloud(slg::Segment2D segment, std_msgs::Header 
 	pcloud::Ptr segmentCloudPtr(new pcl::PointCloud<pcl::PointXYZRGB>);
 
 	std::vector<slg::Point2D> points = segment.getPoints();
-	for(auto p: points){
+	for(const auto& p: points){
 		pcl::PointXYZRGB point;
 		point.x = p.x;
 		point.y = p.y;
@@ -64,7 +64,7 @@ slg::Segment2D slg::segmentMsgToSegment2D(simple_laser_geometry::Segment segment
 	slg::Segment2D currSegment;
 
 	// Read the points
-	for(geometry_msgs::Point point: segmentMsg.points){
+	for(const geometry_msgs::Point& point: segmentMsg.points){
 		currSegment.addPoint({point.x, point.y});
 	}
 
@@ -90,7 +90,7 @@ simple_laser_geometry::Segment slg::segment2DToSegmentMsg(slg::Segment2D segment
 	segmentMsg.first_point_next_segment.x = segment.getNextSegment().x;
 	segmentMsg.first_point_next_segment.y = segment.getNextSegment().y;
 
-	for(slg::Point2D point: segment.getPoints()){
+	for(const slg::Point2D& point: segment.getPoints()){
 		geometry_msgs::Point gPoint;
 		gPoint.x = point.x;
 		gPoint.y = point.y;
@@ -116,7 +116,7 @@ simple_laser_geometry::SegmentStamped slg::segment2DToSegmentStampedMsg(std_msgs
 	segmentMsg.first_point_next_segment.x = segment.getNextSegment().x;
 	segmentMsg.first_point_next_segment.y = segment.getNextSegment().y;
 
-	for(slg::Point2D point: segment.getPoints()){
+	for(const slg::Point2D& point: segment.getPoints()){
 		geometry_msgs::Point gPoint;
 		gPoint.x = point.x;
 		gPoint.y = point.y;
@@ -131,7 +131,7 @@ std::vector<slg::Segment2D> slg::segmentArrayMsgToSegmentVector(simple_laser_geo
 	std::vector<slg::Segment2D> segments;
 
 	// Read segments
-	for(simple_laser_geometry::Segment segment: segmentArrayMsg.segments){
+	for(const simple_laser_geometry::Segment& segment: segmentArrayMsg.segments){
 		segments.push_back(segmentMsgToSegment2D(segment));
 	}
 
@@ -146,7 +146,7 @@ simple_laser_geometry::SegmentArray slg::segmentVectorToSegmentArray(std_msgs::H
 	segmentArrayMsg.header = header;
 
 	// Transform the segment in message
-	for(slg::Segment2D segment: segments){
+	for(const slg::Segment2D& segment: segments){
 		segmentArrayMsg.segments.push_back(segment2DToSegmentMsg(segment));
 	}
 
@@ -157,7 +157,7 @@ simple_laser_geometry::SegmentArray slg::segmentVectorToSegmentArray(std_msgs::H
 geometry_msgs::Polygon slg::polygonToGeometryPolygon(slg::Polygon polygon){
 	geometry_msgs::Polygon gPolygon;
 
-	for(slg::Edge edge: polygon.getEdges()){
+	for(const slg::Edge& edge: polygon.getEdges()){
 		slg::Point2D p = edge.a;
 		geometry_msgs::Point32 gPoint;
 		gPoint.x = p.x;

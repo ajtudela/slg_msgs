@@ -70,8 +70,7 @@ class Segment2D{
 		void setAngularDistanceToClosestBoundary(double angle) {angularDistanceToClosestBoundary = angle; }
 
 		double orientation(){
-			if(vector().y != 0.0) return Point2D(-1, - vector().x / vector().y).angle();
-			else return 0.0;
+			return (vector().y != 0.0) ? Point2D(-1, - vector().x / vector().y).angle() : 0.0;
 		}
 
 		Point2D projection(const Point2D& p) const {
