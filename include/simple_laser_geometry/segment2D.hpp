@@ -16,7 +16,7 @@
 #include <algorithm>
 #include <numeric>
 
-#include "point2D.h"
+#include "point2D.hpp"
 
 namespace slg{
 class Segment2D{

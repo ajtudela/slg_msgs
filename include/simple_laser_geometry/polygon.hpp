@@ -25,7 +25,7 @@
 #include <limits>
 #include <numeric>
 
-#include "point2D.h"
+#include "point2D.hpp"
 
 const double epsilon = std::numeric_limits<float>().epsilon();
 const std::numeric_limits<double> DOUBLE;
@@ -78,22 +78,6 @@ class Polygon{
 			}
 			Point2D sum = std::accumulate(points.begin(), points.end(), Point2D(0.0,0.0));
 			return sum / points.size();
-		}
-
-		void offset(float off){
-			//for(Edge edge: edges){
-				/*if(edge.a.x < centroid().x) edge.a.x += off;
-				if(edge.a.x > centroid().x) edge.a.x -= off;
-				if(edge.a.y < centroid().y) edge.a.y += off;
-				if(edge.a.y > centroid().y) edge.a.y -= off;
-
-				if(edge.b.x < centroid().x) edge.b.x += off;
-				if(edge.b.x > centroid().x) edge.b.x -= off;
-				if(edge.b.y < centroid().y) edge.b.y += off;
-				if(edge.b.y > centroid().y) edge.b.y -= off;*/
-				/*Point2D vec = (edge.a - edge.b);
-				edge.a += vec.perpendicular() / off;*/
-			//}
 		}
 
 	private:

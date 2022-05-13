@@ -1,33 +1,40 @@
-cmake_minimum_required(VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.8)
 project(simple_laser_geometry)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  roslib
-  std_msgs
-  geometry_msgs
-  tf
-  pcl_ros
-  message_generation
-)
+# Default to C++14
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+################################################
+## Find  dependencies                         ##
+################################################
+## Find ament macros and libraries
+find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(pcl_ros REQUIRED)
+
+## Find system libraries
+find_package(PCL REQUIRED)
 
 ################################################
 ## Declare ROS messages, services and actions ##
 ################################################
-add_message_files(
-  FILES
-  Segment.msg
-  SegmentStamped.msg
-  SegmentArray.msg
+set(msg_files
+  "msg/Segment.msg"
+  "msg/SegmentStamped.msg"
+  "msg/SegmentArray.msg"
 )
 
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-  geometry_msgs
+rosidl_generate_interfaces(${PROJECT_NAME}
+  ${msg_files}
+  DEPENDENCIES std_msgs geometry_msgs
 )
 
 ################################################
@@ -35,55 +42,37 @@ generate_messages(
 ################################################
 
 ###################################
-## catkin specific configuration ##
+## ament specific configuration ##
 ###################################
-
-catkin_package(
- INCLUDE_DIRS include
- LIBRARIES ${PROJECT_NAME} 
- CATKIN_DEPENDS roscpp std_msgs geometry_msgs tf pcl_ros message_runtime
-)
+ament_export_dependencies(rosidl_default_runtime)
 
 ###########
 ## Build ##
 ###########
-
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
   include
-  ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
-link_directories(${catkin_LIBRARY_DIRS})
-
-add_library(${PROJECT_NAME} src/conversions.cpp)
-add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-#add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generate_messages_cpp)
-
-#SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
-
-## Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
-
+## Declare a cpp library
+add_library(slg_conversions src/conversions.cpp)
+ament_target_dependencies(slg_conversions std_msgs geometry_msgs tf2 pcl_ros PCL)
+target_link_libraries(slg_conversions ${PCL_LIBRARIES})
+rosidl_target_interfaces(slg_conversions ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 #############
 ## Install ##
 #############
-# all install targets should use catkin DESTINATION variables
-# See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
-
-## Mark cpp header files for installation
-install(TARGETS ${PROJECT_NAME}
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+install(TARGETS slg_conversions
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
 install(DIRECTORY include/${PROJECT_NAME}/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+  DESTINATION include/${PROJECT_NAME}
   FILES_MATCHING PATTERN "*.h"
 #   PATTERN ".svn" EXCLUDE
 )
@@ -91,3 +80,9 @@ install(DIRECTORY include/${PROJECT_NAME}/
 #############
 ## Testing ##
 #############
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+ament_package()

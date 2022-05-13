@@ -1,7 +1,7 @@
 /*
  * CONVERSIONS
  *
- * Copyright (c) 2021 Alberto José Tudela Roldán <ajtudela@gmail.com>
+ * Copyright (c) 2021-2022 Alberto José Tudela Roldán <ajtudela@gmail.com>
  * 
  * This file is part of simple_laser_geometry.
  * 
@@ -9,42 +9,47 @@
  *
  */
 
-#include <tf/tf.h>
+#include <tf2/LinearMath/Transform.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2/utils.h>
 
-#include "simple_laser_geometry/conversions.h"
+#include "simple_laser_geometry/conversions.hpp"
 
 /* Convert Point2D to geometry_msgs::Point */
-geometry_msgs::Point slg::point2DToGeometryPoint(slg::Point2D point){
-	geometry_msgs::Point gPoint;
+geometry_msgs::msg::Point slg::point2DToGeometryPoint(slg::Point2D point){
+	geometry_msgs::msg::Point gPoint;
 	gPoint.x = point.x;
 	gPoint.y = point.y;
 	return gPoint;
 }
 
 /* Convert geometry_msgs::Point to Point2D */
-slg::Point2D slg::geometryPointToPoint2D(geometry_msgs::Point gPoint){
+slg::Point2D slg::geometryPointToPoint2D(geometry_msgs::msg::Point gPoint){
 	return slg::Point2D(gPoint.x, gPoint.y);
 }
 
 /* Convert segment to Pose */
-geometry_msgs::Pose slg::segment2DToPose(slg::Segment2D segment){
-	// Convert segment to tf pose
-	tf::Pose pose;
+geometry_msgs::msg::Pose slg::segment2DToPose(slg::Segment2D segment){
+	// Convert segment to tf2 transform
+	tf2::Transform pose;
 	pose.setOrigin({segment.centroid().x, segment.centroid().y, 0.0});
-	pose.setRotation(tf::createQuaternionFromYaw(segment.orientation()));
+	// Create quaternion
+	tf2::Quaternion q;
+	q.setRPY(0, 0, segment.orientation());
+	pose.setRotation(q);
 	// Convert tf pose to geometry pose
-	geometry_msgs::Pose poseMsg;
-	tf::poseTFToMsg(pose, poseMsg);
+	geometry_msgs::msg::Pose poseMsg;
+	tf2::toMsg(pose, poseMsg);
 
 	return poseMsg;
 }
 
 /* Segment2D to PointCloud */
-pcloud::Ptr slg::segment2DToPointCloud(slg::Segment2D segment, std_msgs::Header segHeader){
+pcloud::Ptr slg::segment2DToPointCloud(slg::Segment2D segment, std_msgs::msg::Header segHeader){
 	pcloud::Ptr segmentCloudPtr(new pcl::PointCloud<pcl::PointXYZRGB>);
 
 	std::vector<slg::Point2D> points = segment.getPoints();
-	for(const auto& p: points){
+	for (const auto& p: points){
 		pcl::PointXYZRGB point;
 		point.x = p.x;
 		point.y = p.y;
@@ -57,14 +62,14 @@ pcloud::Ptr slg::segment2DToPointCloud(slg::Segment2D segment, std_msgs::Header 
 }
 
 /* Convert a segment message to a segment 2D */
-slg::Segment2D slg::segmentMsgToSegment2D(simple_laser_geometry::Segment segmentMsg){
+slg::Segment2D slg::segmentMsgToSegment2D(simple_laser_geometry::msg::Segment segmentMsg){
 	slg::Point2D lastPointPriorSeg(segmentMsg.last_point_prior_segment.x, segmentMsg.last_point_prior_segment.y);
 	slg::Point2D firstPointNextSeg(segmentMsg.first_point_next_segment.x, segmentMsg.first_point_next_segment.y);
 
 	slg::Segment2D currSegment;
 
 	// Read the points
-	for(const geometry_msgs::Point& point: segmentMsg.points){
+	for (const auto& point: segmentMsg.points){
 		currSegment.addPoint({point.x, point.y});
 	}
 
@@ -78,8 +83,8 @@ slg::Segment2D slg::segmentMsgToSegment2D(simple_laser_geometry::Segment segment
 }
 
 /* Convert a segment 2D to a segment message */
-simple_laser_geometry::Segment slg::segment2DToSegmentMsg(slg::Segment2D segment){
-	simple_laser_geometry::Segment segmentMsg;
+simple_laser_geometry::msg::Segment slg::segment2DToSegmentMsg(slg::Segment2D segment){
+	simple_laser_geometry::msg::Segment segmentMsg;
 
 	// Transform the segment in message
 	segmentMsg.id = segment.getId();
@@ -90,8 +95,8 @@ simple_laser_geometry::Segment slg::segment2DToSegmentMsg(slg::Segment2D segment
 	segmentMsg.first_point_next_segment.x = segment.getNextSegment().x;
 	segmentMsg.first_point_next_segment.y = segment.getNextSegment().y;
 
-	for(const slg::Point2D& point: segment.getPoints()){
-		geometry_msgs::Point gPoint;
+	for (const auto& point: segment.getPoints()){
+		geometry_msgs::msg::Point gPoint;
 		gPoint.x = point.x;
 		gPoint.y = point.y;
 		segmentMsg.points.push_back(gPoint);
@@ -101,8 +106,8 @@ simple_laser_geometry::Segment slg::segment2DToSegmentMsg(slg::Segment2D segment
 }
 
 /* Convert a segment 2D to a segment stamped message */
-simple_laser_geometry::SegmentStamped slg::segment2DToSegmentStampedMsg(std_msgs::Header header, slg::Segment2D segment){
-	simple_laser_geometry::SegmentStamped segmentMsg;
+simple_laser_geometry::msg::SegmentStamped slg::segment2DToSegmentStampedMsg(std_msgs::msg::Header header, slg::Segment2D segment){
+	simple_laser_geometry::msg::SegmentStamped segmentMsg;
 
 	// Header of the message
 	segmentMsg.header = header;
@@ -116,8 +121,8 @@ simple_laser_geometry::SegmentStamped slg::segment2DToSegmentStampedMsg(std_msgs
 	segmentMsg.first_point_next_segment.x = segment.getNextSegment().x;
 	segmentMsg.first_point_next_segment.y = segment.getNextSegment().y;
 
-	for(const slg::Point2D& point: segment.getPoints()){
-		geometry_msgs::Point gPoint;
+	for (const auto& point: segment.getPoints()){
+		geometry_msgs::msg::Point gPoint;
 		gPoint.x = point.x;
 		gPoint.y = point.y;
 		segmentMsg.points.push_back(gPoint);
@@ -127,11 +132,11 @@ simple_laser_geometry::SegmentStamped slg::segment2DToSegmentStampedMsg(std_msgs
 }
 
 /* Convert a segment array message to a vector of segments */
-std::vector<slg::Segment2D> slg::segmentArrayMsgToSegmentVector(simple_laser_geometry::SegmentArray segmentArrayMsg){
+std::vector<slg::Segment2D> slg::segmentArrayMsgToSegmentVector(simple_laser_geometry::msg::SegmentArray segmentArrayMsg){
 	std::vector<slg::Segment2D> segments;
 
 	// Read segments
-	for(const simple_laser_geometry::Segment& segment: segmentArrayMsg.segments){
+	for (const auto& segment: segmentArrayMsg.segments){
 		segments.push_back(segmentMsgToSegment2D(segment));
 	}
 
@@ -139,14 +144,14 @@ std::vector<slg::Segment2D> slg::segmentArrayMsgToSegmentVector(simple_laser_geo
 }
 
 /* Convert a vector of segments to a segment array message */
-simple_laser_geometry::SegmentArray slg::segmentVectorToSegmentArray(std_msgs::Header header, std::vector<slg::Segment2D> segments){
-	simple_laser_geometry::SegmentArray segmentArrayMsg;
+simple_laser_geometry::msg::SegmentArray slg::segmentVectorToSegmentArray(std_msgs::msg::Header header, std::vector<slg::Segment2D> segments){
+	simple_laser_geometry::msg::SegmentArray segmentArrayMsg;
 
 	// Header of the message
 	segmentArrayMsg.header = header;
 
 	// Transform the segment in message
-	for(const slg::Segment2D& segment: segments){
+	for (const auto& segment: segments){
 		segmentArrayMsg.segments.push_back(segment2DToSegmentMsg(segment));
 	}
 
@@ -154,12 +159,12 @@ simple_laser_geometry::SegmentArray slg::segmentVectorToSegmentArray(std_msgs::H
 }
 
 /* Convert a polygon to a geometry polygon */
-geometry_msgs::Polygon slg::polygonToGeometryPolygon(slg::Polygon polygon){
-	geometry_msgs::Polygon gPolygon;
+geometry_msgs::msg::Polygon slg::polygonToGeometryPolygon(slg::Polygon polygon){
+	geometry_msgs::msg::Polygon gPolygon;
 
-	for(const slg::Edge& edge: polygon.getEdges()){
+	for (const auto& edge: polygon.getEdges()){
 		slg::Point2D p = edge.a;
-		geometry_msgs::Point32 gPoint;
+		geometry_msgs::msg::Point32 gPoint;
 		gPoint.x = p.x;
 		gPoint.y = p.y;
 		gPoint.z = 0.0;
@@ -170,21 +175,21 @@ geometry_msgs::Polygon slg::polygonToGeometryPolygon(slg::Polygon polygon){
 }
 
 /* Convert a geometry polygon to a polygon */
-slg::Polygon slg::geometryPolygonToPolygon(geometry_msgs::Polygon gPolygon){
+slg::Polygon slg::geometryPolygonToPolygon(geometry_msgs::msg::Polygon gPolygon){
 	slg::Polygon polygon;
 
 	// Read n-1 points
-	for(int i = 0; i < gPolygon.points.size()-1; i++){
-		geometry_msgs::Point32 currPoint = gPolygon.points[i];
-		geometry_msgs::Point32 nextPoint = gPolygon.points[i+1];
+	for (unsigned int i = 0; i < gPolygon.points.size()-1; i++){
+		geometry_msgs::msg::Point32 currPoint = gPolygon.points[i];
+		geometry_msgs::msg::Point32 nextPoint = gPolygon.points[i+1];
 
 		slg::Point2D a(currPoint.x, currPoint.y);
 		slg::Point2D b(nextPoint.x, nextPoint.y);
 		polygon.addEdge({a,b});
 	}
 	// Add the last edge
-	geometry_msgs::Point32 firstPoint = gPolygon.points[0];
-	geometry_msgs::Point32 lastPoint = gPolygon.points[gPolygon.points.size()-1];
+	geometry_msgs::msg::Point32 firstPoint = gPolygon.points[0];
+	geometry_msgs::msg::Point32 lastPoint = gPolygon.points[gPolygon.points.size()-1];
 
 	slg::Point2D a(lastPoint.x, lastPoint.y);
 	slg::Point2D b(firstPoint.x, firstPoint.y);
