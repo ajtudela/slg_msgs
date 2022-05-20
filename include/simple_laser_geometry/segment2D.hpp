@@ -1,7 +1,7 @@
 /*
  * SEGMENT 2D CLASS
  *
- * Copyright (c) 2017-2021 Alberto José Tudela Roldán <ajtudela@gmail.com>
+ * Copyright (c) 2017-2022 Alberto José Tudela Roldán <ajtudela@gmail.com>
  * 
  * This file is part of simple_laser_geometry.
  * 
@@ -9,8 +9,8 @@
  *
  */
 
-#ifndef SEGMENT2D_H
-#define SEGMENT2D_H
+#ifndef SIMPLE_LASER_GEOMETRY__SEGMENT2D_HPP_
+#define SIMPLE_LASER_GEOMETRY__SEGMENT2D_HPP_
 
 #include <vector>
 #include <algorithm>
@@ -24,7 +24,7 @@ class Segment2D{
 		Segment2D(){id = 0; label = BACKGROUND;}
 
 		Segment2D(int id, Point2D prevPoint, Point2D currPoint, Point2D nextPoint){
-			this->id = id; 
+			this->id = id;
 			label = BACKGROUND;
 			points.push_back(currPoint);
 			lastPointPriorSeg = prevPoint;
@@ -32,8 +32,19 @@ class Segment2D{
 			lastCentroid = currPoint;
 		}
 
-		Segment2D& operator=  (const Segment2D& seg){
-			if(this != &seg){
+		Segment2D(const Segment2D& seg){
+			id = seg.getId();
+			label = seg.getLabel();
+			points = seg.getPoints();
+			lastPointPriorSeg = seg.getPriorSegment();
+			firstPointNextSeg = seg.getNextSegment();
+			lastCentroid = seg.getLastCentroid();
+		}
+
+		~Segment2D(){}
+
+		Segment2D& operator= (const Segment2D& seg){
+			if (this != &seg){
 				this->id = seg.getId();
 				this->label = seg.getLabel();
 				this->points = seg.getPoints();
@@ -84,7 +95,7 @@ class Segment2D{
 		}
 
 		Point2D centroid() const{
-			Point2D sum = std::accumulate(points.begin(), points.end(), Point2D(0.0,0.0));
+			Point2D sum = std::accumulate(points.begin(), points.end(), Point2D(0.0, 0.0));
 			return sum / points.size();
 		}
 
@@ -103,7 +114,7 @@ class Segment2D{
 		}
 
 		void merge(Segment2D seg){
-			if(label != seg.getLabel()) label = BACKGROUND;
+			if (label != seg.getLabel()) label = BACKGROUND;
 
 			std::vector<Point2D> newPoints = seg.getPoints();
 			points.insert(points.end(), newPoints.begin(), newPoints.end());
@@ -144,6 +155,6 @@ class Segment2D{
 		std::vector<Point2D> points;
 		Point2D lastPointPriorSeg, firstPointNextSeg, lastCentroid;
 };
-}
+}  // namespace slg
 
-#endif
+#endif  // SIMPLE_LASER_GEOMETRY__SEGMENT2D_HPP_

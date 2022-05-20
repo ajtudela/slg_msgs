@@ -3,6 +3,11 @@ Changelog for package simple_laser_geometry
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.2.1 (10-01-2022)
+------------------
+* Added copy constructor in segment2D.
+* Fix some linter errors.
+
 3.2.0 (10-01-2022)
 ------------------
 * Added ability to create NaN point.
