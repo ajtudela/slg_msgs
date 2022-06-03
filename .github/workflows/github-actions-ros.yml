@@ -2,10 +2,11 @@ ros_build:
   name: ros_build
   runs-on: ubuntu-18.04
     steps:
-      - uses: ros-tooling/setup-ros@v0.3
-        with:
-          required-ros-distributions: melodic
-      - uses: ros-tooling/action-ros-ci@v0.2
-        with:
-          package-name: simple_laser_geometry
-          target-ros1-distro: melodic
+    - uses: actions/checkout@v1
+    - uses: ros-tooling/setup-ros@v0.3
+      with:
+        required-ros-distributions: melodic
+    - uses:  ros-tooling/action-ros-ci@v0.2
+      with:
+        package-name: simple_laser_geometry
+        target-ros1-distro: melodic
