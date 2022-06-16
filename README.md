@@ -1,7 +1,8 @@
 # simple_laser_geometry
 
-![ROS](https://img.shields.io/badge/ros2-galactic-blueviolet?style=for-the-badge&logo=ros&logoColor=white)
+![ROS2](https://img.shields.io/badge/ros2-galactic-purple?logo=ros&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
+[![Compiling Test](https://github.com/ajtudela/simple_laser_geometry/actions/workflows/compiling_test.yml/badge.svg?branch=galactic)](https://github.com/ajtudela/simple_laser_geometry/actions/workflows/compiling_test.yml)
 
 ## Overview
 ROS package that contains classes and messages to interact with laser related geometry and functions to convert them to ROS standard.
