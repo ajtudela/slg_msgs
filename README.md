@@ -1,7 +1,7 @@
 # simple_laser_geometry
 
 ![ROS2](https://img.shields.io/badge/ros2-galactic-purple?logo=ros&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
+![License](https://img.shields.io/badge/license-MIT-green)
 [![Compiling Test](https://github.com/ajtudela/simple_laser_geometry/actions/workflows/compiling_test.yml/badge.svg?branch=galactic)](https://github.com/ajtudela/simple_laser_geometry/actions/workflows/compiling_test.yml)
 
 ## Overview
