@@ -24,3 +24,4 @@ jobs:
         with:
           package-name: simple_laser_geometry
           target-ros2-distro: galactic
+          skip-tests: true
