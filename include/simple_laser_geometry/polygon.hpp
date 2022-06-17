@@ -62,8 +62,8 @@ class Polygon{
 		Polygon() : name("") {}
 
 		Polygon(const Polygon& poly) : 
-					name(poly.getName()), 
-					edges(poly.getEdges()) {}
+					name(poly.get_name()), 
+					edges(poly.get_edges()) {}
 
 		Polygon(const geometry_msgs::msg::Polygon & polygonMsg){
 			// Read n-1 points
@@ -86,8 +86,8 @@ class Polygon{
 
 		Polygon& operator= (const Polygon& poly){
 			if (this != &poly){
-				this->name = poly.getName();
-				this->edges = poly.getEdges();
+				this->name = poly.get_name();
+				this->edges = poly.get_edges();
 			}
 			return *this;
 		}
@@ -100,11 +100,11 @@ class Polygon{
 		int size() 						const { return edges.size(); }
 		bool empty() 					const { return edges.empty(); }
 		void clear() 						{ edges.clear(); name.clear(); }
-		std::string getName()			const { return name; }
-		void setName(std::string name)		{ this->name = name; }
-		std::vector<Edge> getEdges() 	const { return edges; }
-		Edge getEdge(int e) 			const{ return edges[e]; }
-		void addEdge(Edge edge) 			{ edges.push_back(edge); }
+		std::string get_name()			const { return name; }
+		void set_name(std::string name)		{ this->name = name; }
+		std::vector<Edge> get_edges() 	const { return edges; }
+		Edge get_edge(int e) 			const{ return edges[e]; }
+		void add_edge(Edge edge) 			{ edges.push_back(edge); }
 
 		bool contains(const Point2D & p) const{
 			auto c = 0;

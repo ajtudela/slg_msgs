@@ -31,11 +31,11 @@
 typedef pcl::PointCloud<pcl::PointXYZRGB> pcloud;
 
 namespace slg{
-geometry_msgs::msg::Pose segment2DToPose(slg::Segment2D segment);
-pcloud::Ptr segment2DToPointCloud(slg::Segment2D segment, std_msgs::msg::Header segHeader);
+geometry_msgs::msg::Pose segment2D_to_pose(slg::Segment2D segment);
+pcloud::Ptr segment2D_to_pcl(slg::Segment2D segment, std_msgs::msg::Header segHeader);
 
-std::vector<slg::Segment2D> segmentArrayMsgToSegmentVector(simple_laser_geometry::msg::SegmentArray segmentArrayMsg);
-simple_laser_geometry::msg::SegmentArray segmentVectorToSegmentArray(std_msgs::msg::Header header, std::vector<slg::Segment2D> segments);
+std::vector<slg::Segment2D> segment_array_msg_to_segment_vector(simple_laser_geometry::msg::SegmentArray segmentArrayMsg);
+simple_laser_geometry::msg::SegmentArray segment_vector_to_segment_array(std_msgs::msg::Header header, std::vector<slg::Segment2D> segments);
 }  // namespace slg
 
 #endif  // SIMPLE_LASER_GEOMETRY__CONVERSIONS_HPP_

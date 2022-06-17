@@ -16,7 +16,7 @@
 #include "simple_laser_geometry/conversions.hpp"
 
 /* Convert segment to Pose */
-geometry_msgs::msg::Pose slg::segment2DToPose(slg::Segment2D segment){
+geometry_msgs::msg::Pose slg::segment2D_to_pose(slg::Segment2D segment){
 	// Convert segment to tf2 transform
 	tf2::Transform pose;
 	pose.setOrigin({segment.centroid().x, segment.centroid().y, 0.0});
@@ -32,10 +32,10 @@ geometry_msgs::msg::Pose slg::segment2DToPose(slg::Segment2D segment){
 }
 
 /* Segment2D to PointCloud */
-pcloud::Ptr slg::segment2DToPointCloud(slg::Segment2D segment, std_msgs::msg::Header segHeader){
+pcloud::Ptr slg::segment2D_to_pcl(slg::Segment2D segment, std_msgs::msg::Header segHeader){
 	pcloud::Ptr segmentCloudPtr(new pcl::PointCloud<pcl::PointXYZRGB>);
 
-	for (const auto& p : segment.getPoints()){
+	for (const auto& p : segment.get_points()){
 		pcl::PointXYZRGB point;
 		point.x = p.x;
 		point.y = p.y;
@@ -48,14 +48,14 @@ pcloud::Ptr slg::segment2DToPointCloud(slg::Segment2D segment, std_msgs::msg::He
 }
 
 /* Convert a segment array message to a vector of segments */
-std::vector<slg::Segment2D> slg::segmentArrayMsgToSegmentVector(simple_laser_geometry::msg::SegmentArray segmentArrayMsg){
+std::vector<slg::Segment2D> slg::segment_array_msg_to_segment_vector(simple_laser_geometry::msg::SegmentArray segmentArrayMsg){
 	std::vector<slg::Segment2D> segments;
 	segments.insert(segments.begin(), std::begin(segmentArrayMsg.segments), std::end(segmentArrayMsg.segments));
 	return segments;
 }
 
 /* Convert a vector of segments to a segment array message */
-simple_laser_geometry::msg::SegmentArray slg::segmentVectorToSegmentArray(std_msgs::msg::Header header, std::vector<slg::Segment2D> segments){
+simple_laser_geometry::msg::SegmentArray slg::segment_vector_to_segment_array(std_msgs::msg::Header header, std::vector<slg::Segment2D> segments){
 	simple_laser_geometry::msg::SegmentArray segmentArrayMsg;
 	segmentArrayMsg.header = header;
 	segmentArrayMsg.segments.insert(segmentArrayMsg.segments.begin(), std::begin(segments), std::end(segments));
