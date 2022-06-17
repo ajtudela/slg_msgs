@@ -16,34 +16,70 @@
 #include <algorithm>
 #include <numeric>
 
+#include <simple_laser_geometry/msg/segment.hpp>
+
 #include "point2D.hpp"
 
 namespace slg{
 class Segment2D{
 	public:
-		Segment2D(){id = 0; label = BACKGROUND;}
+		Segment2D() : id(0), 
+					  label(BACKGROUND), 
+					  angularDistanceToClosestBoundary(0.0), 
+					  lastPointPriorSeg(Point2D(0, 0)), 
+					  firstPointNextSeg(Point2D(0, 0)), 
+					  lastCentroid(Point2D(0, 0)) {}
 
-		Segment2D(int id, Point2D prevPoint, Point2D currPoint, Point2D nextPoint){
-			this->id = id;
-			label = BACKGROUND;
-			points.push_back(currPoint);
-			lastPointPriorSeg = prevPoint;
-			firstPointNextSeg = nextPoint;
-			lastCentroid = currPoint;
-		}
+		Segment2D(int newId, Point2D prevPoint, Point2D currPoint, Point2D nextPoint) : 
+					id(newId), 
+					label(BACKGROUND), 
+					angularDistanceToClosestBoundary(0.0), 
+					points({currPoint}), 
+					lastPointPriorSeg(prevPoint), 
+					firstPointNextSeg(nextPoint), 
+					lastCentroid(currPoint) {}
 
-		Segment2D(const Segment2D& seg){
-			id = seg.getId();
-			label = seg.getLabel();
-			points = seg.getPoints();
-			lastPointPriorSeg = seg.getPriorSegment();
-			firstPointNextSeg = seg.getNextSegment();
-			lastCentroid = seg.getLastCentroid();
-		}
+		Segment2D(const Segment2D& seg) : 
+					id(seg.getId()), 
+					label(seg.getLabel()), 
+					angularDistanceToClosestBoundary(0.0), 
+					points(seg.getPoints()), 
+					lastPointPriorSeg(seg.getPriorSegment()), 
+					firstPointNextSeg(seg.getNextSegment()), 
+					lastCentroid(seg.getLastCentroid()) {}
+
+		Segment2D(const simple_laser_geometry::msg::Segment& segmentMsg) : 
+					id(segmentMsg.id), 
+					label(slg::Label(segmentMsg.label)), 
+					angularDistanceToClosestBoundary(segmentMsg.angular_distance),
+					lastPointPriorSeg(segmentMsg.last_point_prior_segment), 
+					firstPointNextSeg(segmentMsg.first_point_next_segment) 
+					{
+						points.insert(points.begin(), std::begin(segmentMsg.points), std::end(segmentMsg.points));
+					}
 
 		~Segment2D(){}
 
-		Segment2D& operator= (const Segment2D& seg){
+		operator simple_laser_geometry::msg::Segment() const{
+			simple_laser_geometry::msg::Segment segmentMsg;
+
+			// Transform the segment in message
+			segmentMsg.id = id;
+			segmentMsg.label = label;
+			segmentMsg.angular_distance = angularDistanceToClosestBoundary;
+			segmentMsg.last_point_prior_segment.x = lastPointPriorSeg.x;
+			segmentMsg.last_point_prior_segment.y = lastPointPriorSeg.y;
+			segmentMsg.first_point_next_segment.x = firstPointNextSeg.x;
+			segmentMsg.first_point_next_segment.y = firstPointNextSeg.y;
+
+			for (const auto& point : points){
+				segmentMsg.points.push_back(point);
+			}
+
+			return segmentMsg;
+		}
+
+		Segment2D& operator= (const Segment2D & seg){
 			if (this != &seg){
 				this->id = seg.getId();
 				this->label = seg.getLabel();
@@ -52,6 +88,11 @@ class Segment2D{
 				this->firstPointNextSeg = seg.getNextSegment();
 				this->lastCentroid = seg.getLastCentroid();
 			}
+			return *this;
+		}
+
+		Segment2D& operator= (const simple_laser_geometry::msg::Segment & segmentMsg){
+			*this = Segment2D(segmentMsg);
 			return *this;
 		}
 

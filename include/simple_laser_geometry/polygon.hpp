@@ -26,6 +26,8 @@
 #include <limits>
 #include <numeric>
 
+#include <geometry_msgs/msg/polygon.hpp>
+
 #include "point2D.hpp"
 
 const double epsilon = std::numeric_limits<float>().epsilon();
@@ -57,14 +59,52 @@ struct Edge{
 
 class Polygon{
 	public:
-		int size() 							{return edges.size();}
-		bool empty() 			const		{return edges.empty();}
-		void clear()						{edges.clear(); name.clear();}
-		std::string getName()	const		{return name;}
-		void setName(std::string name)		{this->name = name;}
-		std::vector<Edge> getEdges() const	{return edges;}
-		Edge getEdge(int e) const			{return edges[e];}
-		void addEdge(Edge edge) 			{edges.push_back(edge);}
+		Polygon() : name("") {}
+
+		Polygon(const Polygon& poly) : 
+					name(poly.getName()), 
+					edges(poly.getEdges()) {}
+
+		Polygon(const geometry_msgs::msg::Polygon & polygonMsg){
+			// Read n-1 points
+			for (unsigned int i = 0; i < polygonMsg.points.size()-1; i++){
+				edges.push_back({polygonMsg.points[i], polygonMsg.points[i+1]});
+			}
+			// Add the last edge
+			edges.push_back({polygonMsg.points[0], polygonMsg.points[polygonMsg.points.size()-1]});
+		}
+
+		~Polygon(){}
+
+		operator geometry_msgs::msg::Polygon (){
+			geometry_msgs::msg::Polygon polygonMsg;
+			for (const auto& edge : edges){
+				polygonMsg.points.push_back(edge.a);
+			}
+			return polygonMsg;
+		}
+
+		Polygon& operator= (const Polygon& poly){
+			if (this != &poly){
+				this->name = poly.getName();
+				this->edges = poly.getEdges();
+			}
+			return *this;
+		}
+
+		Polygon& operator= (const geometry_msgs::msg::Polygon & polygonMsg){
+			*this = Polygon(polygonMsg);
+			return *this;
+		}
+
+		int size() 						const { return edges.size(); }
+		bool empty() 					const { return edges.empty(); }
+		void clear() 						{ edges.clear(); name.clear(); }
+		std::string getName()			const { return name; }
+		void setName(std::string name)		{ this->name = name; }
+		std::vector<Edge> getEdges() 	const { return edges; }
+		Edge getEdge(int e) 			const{ return edges[e]; }
+		void addEdge(Edge edge) 			{ edges.push_back(edge); }
 
 		bool contains(const Point2D & p) const{
 			auto c = 0;

@@ -28,7 +28,6 @@ find_package(PCL REQUIRED)
 ################################################
 set(msg_files
   "msg/Segment.msg"
-  "msg/SegmentStamped.msg"
   "msg/SegmentArray.msg"
 )
 

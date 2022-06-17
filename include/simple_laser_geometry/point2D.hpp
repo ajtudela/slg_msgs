@@ -16,6 +16,9 @@
 #include <cmath>
 #include <iostream>
 
+#include <geometry_msgs/msg/point.hpp>
+#include <geometry_msgs/msg/point32.hpp>
+
 namespace slg{
 
 // Label
@@ -26,6 +29,8 @@ static const char * labelStr[] = {"background", "person", "person_cane", "person
 struct Point2D{
 	Point2D(double x = 0.0, double y = 0.0, Label label = BACKGROUND) : x(x), y(y), label(label) {}
 	Point2D(const Point2D& p): x(p.x), y(p.y), label(p.label) {}
+	Point2D(const geometry_msgs::msg::Point& p): x(p.x), y(p.y), label(BACKGROUND) {}
+	Point2D(const geometry_msgs::msg::Point32& p): x(p.x), y(p.y), label(BACKGROUND) {}
 	~Point2D(){}
 
 	static Point2D fromPolarCoords(const double r, const double phi) {return Point2D(r * cos(phi), r * sin(phi));}
@@ -54,10 +59,35 @@ struct Point2D{
 	Point2D operator- () {return Point2D(-x, -y);}
 	Point2D operator+ () {return Point2D( x,  y);}
 
+	operator geometry_msgs::msg::Point() const{
+		geometry_msgs::msg::Point pointMsg;
+		pointMsg.x = x;
+		pointMsg.y = y;
+		return pointMsg;
+	}
+
+	operator geometry_msgs::msg::Point32() const{
+		geometry_msgs::msg::Point32 pointMsg;
+		pointMsg.x = x;
+		pointMsg.y = y;
+		pointMsg.z = 0.0;
+		return pointMsg;
+	}
+
 	Point2D& operator=  (const Point2D& p) {if (this != &p) { x = p.x; y = p.y; } return *this;}
 	Point2D& operator+= (const Point2D& p) {x += p.x; y += p.y; return *this;}
 	Point2D& operator-= (const Point2D& p) {x -= p.x; y -= p.y; return *this;}
 
+	Point2D& operator= (const geometry_msgs::msg::Point & pointMsg){
+		*this = Point2D(pointMsg);
+		return *this;
+	}
+
+	Point2D& operator= (const geometry_msgs::msg::Point32 & pointMsg){
+		*this = Point2D(pointMsg);
+		return *this;
+	}
+	
 	friend bool operator== (const Point2D& p1, const Point2D& p2) {return (p1.x == p2.x && p1.y == p2.y);}
 	friend bool operator!= (const Point2D& p1, const Point2D& p2) {return !(p1 == p2); }
 	friend bool operator<  (const Point2D& p1, const Point2D& p2) {return (p1.lengthSquared() < p2.lengthSquared());}
