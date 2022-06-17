@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2020-2022 Alberto José Tudela Roldán <ajtudela@gmail.com>
  * 
- * This file is part of simple_laser_geometry.
+ * This file is part of slg_msgs.
  * 
  * All rights reserved.
  *
@@ -17,8 +17,8 @@
 ################################################################
 */
 
-#ifndef SIMPLE_LASER_GEOMETRY__POLYGON_HPP_
-#define SIMPLE_LASER_GEOMETRY__POLYGON_HPP_
+#ifndef SLG_MSGS__POLYGON_HPP_
+#define SLG_MSGS__POLYGON_HPP_
 
 #include <string>
 #include <vector>
@@ -127,4 +127,4 @@ class Polygon{
 };
 }  // namespace slg
 
-#endif  // SIMPLE_LASER_GEOMETRY__POLYGON_HPP_
+#endif  // SLG_MSGS__POLYGON_HPP_

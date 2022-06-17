@@ -3,14 +3,14 @@
  *
  * Copyright (c) 2017-2022 Alberto José Tudela Roldán <ajtudela@gmail.com>
  * 
- * This file is part of simple_laser_geometry.
+ * This file is part of slg_msgs.
  * 
  * All rights reserved.
  *
  */
 
-#ifndef SIMPLE_LASER_GEOMETRY__POINT2D_HPP_
-#define SIMPLE_LASER_GEOMETRY__POINT2D_HPP_
+#ifndef SLG_MSGS__POINT2D_HPP_
+#define SLG_MSGS__POINT2D_HPP_
 
 #include <limits>
 #include <cmath>
@@ -106,4 +106,4 @@ struct Point2D{
 };
 }  // namespace slg
 
-#endif  // SIMPLE_LASER_GEOMETRY__POINT2D_HPP_
+#endif  // SLG_MSGS__POINT2D_HPP_
