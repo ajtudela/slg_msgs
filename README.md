@@ -5,30 +5,13 @@
 [![Compiling Test](https://github.com/ajtudela/simple_laser_geometry/actions/workflows/build.yml/badge.svg?branch=galactic)](https://github.com/ajtudela/simple_laser_geometry/actions/workflows/build.yml)
 
 ## Overview
-ROS package that contains classes and messages to interact with laser related geometry and functions to convert them to ROS standard.
-Useful to use with LaserScan. Contains three classes:
+This package provides classes and messages to interact with laser related geometry.
 
- * **`Point2D`**
+## simple_laser_geometry c++ API
+* [point2D.hpp](include/sensor_msgs/point2D.hpp): Faster 2D point class based on PCL but with unnecesary 3D functions.
+* [polygon.hpp](include/sensor_msgs/polygon.hpp): Definitions and functionality relating to polygons.
+* [segment2D.hpp](include/sensor_msgs/segment2D.hpp): Definitions and functionality relating to segments of laserscan.
 
-	Faster point class based on PCL but with unnecesary 3D functions.
-
- * **`Segment2D`**
-
-	Extension of class Point to handle segments.
-
- * **`Polygon`**
-
-	Struct that defines a polygon and functions related.
-
-And three custom messages:
- * **`Segment`**
-
-	Message based on the class mention before.
-
- * **`SegmentStamped`**
-
-	Segment message with header.
-
- * **`SegmentArray`**
-
-	An array of Segment message with header.
+## Messages (.msg)
+* [Segment](msg/Segment.msg): Describes a laserscan splitted in segment.
+* [SegmentArray](msg/BatteryState.msg): An array of Segment messages.

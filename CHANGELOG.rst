@@ -3,6 +3,13 @@ Changelog for package simple_laser_geometry
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.5.0 (17-06-2022)
+------------------
+* Delete unused SegmentStamped message.
+* Added implicit conversions.
+* Update syntax.
+* Remove old conversions.
+
 3.2.1 (10-01-2022)
 ------------------
 * Added copy constructor in segment2D.

@@ -2,8 +2,8 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
 	<name>simple_laser_geometry</name>
-	<version>3.2.1</version>
-	<description>This package contains classes and messages to interact with laser related geometry. Useful to use with LaserScan.</description>
+	<version>3.5.0</version>
+	<description>This package provides classes and messages to interact with laser related geometry.</description>
 	<maintainer email="ajtudela@gmail.com">Alberto Tudela</maintainer>
 	<license>MIT</license>
 	<author email="ajtudela@gmail.com">Alberto Tudela</author>
@@ -11,8 +11,6 @@
 	<buildtool_depend>rosidl_default_generators</buildtool_depend>
 	<depend>std_msgs</depend>
 	<depend>geometry_msgs</depend>
-	<depend>tf2</depend>
-	<depend>pcl_ros</depend>
 	<exec_depend>rosidl_default_runtime</exec_depend>
 	<member_of_group>rosidl_interface_packages</member_of_group>
 	<test_depend>ament_lint_auto</test_depend>

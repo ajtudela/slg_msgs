@@ -17,11 +17,6 @@ find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(tf2 REQUIRED)
-find_package(pcl_ros REQUIRED)
-
-## Find system libraries
-find_package(PCL REQUIRED)
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -44,6 +39,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 ## ament specific configuration ##
 ###################################
 ament_export_dependencies(rosidl_default_runtime)
+ament_export_include_directories(include)
 
 ###########
 ## Build ##
@@ -52,24 +48,11 @@ ament_export_dependencies(rosidl_default_runtime)
 ## Your package locations should be listed before other locations
 include_directories(
   include
-  ${PCL_INCLUDE_DIRS}
 )
-
-## Declare a cpp library
-add_library(slg_conversions src/conversions.cpp)
-ament_target_dependencies(slg_conversions std_msgs geometry_msgs tf2 pcl_ros PCL)
-target_link_libraries(slg_conversions ${PCL_LIBRARIES})
-rosidl_target_interfaces(slg_conversions ${PROJECT_NAME} "rosidl_typesupport_cpp")
 
 #############
 ## Install ##
 #############
-install(TARGETS slg_conversions
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION lib/${PROJECT_NAME}
-)
-
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION include/${PROJECT_NAME}
   FILES_MATCHING PATTERN "*.h"
