@@ -55,7 +55,7 @@ include_directories(
 #############
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION include/${PROJECT_NAME}
-  FILES_MATCHING PATTERN "*.h"
+  FILES_MATCHING PATTERN "*.hpp"
 #   PATTERN ".svn" EXCLUDE
 )
 
