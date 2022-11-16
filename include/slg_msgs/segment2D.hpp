@@ -48,7 +48,7 @@ class Segment2D{
 					first_point_next_seg(seg.get_next_segment()), 
 					last_centroid(seg.get_last_centroid()) {}
 
-		Segment2D(const simple_laser_geometry::msg::Segment& segmentMsg) : 
+		Segment2D(const slg_msgs::msg::Segment& segmentMsg) : 
 					id(segmentMsg.id), 
 					label(slg::Label(segmentMsg.label)), 
 					angular_distance_to_closest_boundary(segmentMsg.angular_distance),
@@ -60,8 +60,8 @@ class Segment2D{
 
 		~Segment2D(){}
 
-		operator simple_laser_geometry::msg::Segment() const{
-			simple_laser_geometry::msg::Segment segmentMsg;
+		operator slg_msgs::msg::Segment() const{
+			slg_msgs::msg::Segment segmentMsg;
 
 			// Transform the segment in message
 			segmentMsg.id = id;
@@ -91,7 +91,7 @@ class Segment2D{
 			return *this;
 		}
 
-		Segment2D& operator= (const simple_laser_geometry::msg::Segment & segmentMsg){
+		Segment2D& operator= (const slg_msgs::msg::Segment & segmentMsg){
 			*this = Segment2D(segmentMsg);
 			return *this;
 		}
