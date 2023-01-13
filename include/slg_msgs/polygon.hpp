@@ -55,6 +55,10 @@ struct Edge{
 		Point2D difPA = a - p;
 		return fabs(difAB.x * difPA.y - difAB.y * difPA.x) / difAB.length();
 	}
+
+	bool self() const{
+		return a == b;
+	}
 };
 
 class Polygon{
@@ -133,15 +137,32 @@ class Polygon{
 		}
 
 		void add_point(const Point2D & p){
+			// If the polygon is empty, add the first point
 			if (edges.empty()){
 				edges.push_back({p, p});
 			}else{
-				if (is_closed()){
-					edges.pop_back();
+				// If the last edge is a self edge, add a new point to it
+				if (edges.back().self()){
+					edges.back().b = p;
+				}else{
+					// If the polygon is closed, remove the last edge
+					if (is_closed()){
+						edges.pop_back();
+					}
+					// Add the new point
+					edges.push_back({edges.back().b, p});
+					// Close the polygon
+					close();
 				}
-				edges.push_back({edges.back().b, p});
-				close();
 			}
+		}
+
+		std::vector<Point2D> get_points() const{
+			std::vector<Point2D> points;
+			for (const auto & edge : edges){
+				points.push_back(edge.a);
+			}
+			return points;
 		}
 
 	private:

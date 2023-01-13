@@ -2,6 +2,11 @@
 Changelog for package slg_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.7.0 (13-01-2023)
+------------------
+* Added get_points function.
+* Fix add point.
+
 3.6.0 (11-01-2023)
 ------------------
 * A polygon can be created from a vector of points.
