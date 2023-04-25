@@ -2,6 +2,16 @@
 Changelog for package slg_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.7.0 (13-01-2023)
+------------------
+* Added get_points function.
+* Fix add point.
+
+3.6.0 (11-01-2023)
+------------------
+* A polygon can be created from a vector of points.
+* Added checks for closed polygon.
+
 3.5.1 (15-11-2022)
 ------------------
 * Fix install in CMakeLists.txt
@@ -32,7 +42,7 @@ Changelog for package slg_msgs
 * Using slg namespace for Point2D, Segment2D and polygon.
 
 2.1.0 (15-12-2021)
-------------------
+----------------
 * Adding conversion for polygon to geometry_msgs.
 
 2.0.0 (13-12-2021)
