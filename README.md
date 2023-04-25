@@ -1,8 +1,8 @@
 # slg_msgs
 
-![ROS2](https://img.shields.io/badge/ros2-galactic-purple?logo=ros&logoColor=white)
+![ROS2](https://img.shields.io/badge/ros2-humble-blue?logo=ros&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green)
-[![Build](https://github.com/ajtudela/slg_msgs/actions/workflows/build.yml/badge.svg?branch=galactic)](https://github.com/ajtudela/slg_msgs/actions/workflows/build.yml)
+[![Build](https://github.com/ajtudela/slg_msgs/actions/workflows/build.yml/badge.svg?branch=humble)](https://github.com/ajtudela/slg_msgs/actions/workflows/build.yml)
 
 ## Overview
 This package provides classes and messages to interact with laser related geometry, simple laser geometry.

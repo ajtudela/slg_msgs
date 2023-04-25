@@ -2,6 +2,10 @@
 Changelog for package slg_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.8.0 (25-04-2023)
+------------------
+* Prepare for humble release.
+
 3.7.0 (13-01-2023)
 ------------------
 * Added get_points function.
