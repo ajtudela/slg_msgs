@@ -31,15 +31,13 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   DEPENDENCIES std_msgs geometry_msgs
 )
 
-################################################
-## Declare ROS dynamic reconfigure parameters ##
-################################################
+add_library(${PROJECT_NAME}_includes INTERFACE)
+target_include_directories(${PROJECT_NAME}_includes INTERFACE
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include>"
+)
 
-###################################
-## ament specific configuration ##
-###################################
-ament_export_dependencies(rosidl_default_runtime)
-ament_export_include_directories(include)
+ament_export_targets(export_${PROJECT_NAME})
 
 ###########
 ## Build ##
@@ -59,6 +57,10 @@ install(DIRECTORY include/${PROJECT_NAME}/
 #   PATTERN ".svn" EXCLUDE
 )
 
+install(TARGETS ${PROJECT_NAME}_includes
+  EXPORT export_${PROJECT_NAME}
+)
+
 #############
 ## Testing ##
 #############
@@ -67,4 +69,9 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+###################################
+## ament specific configuration ##
+###################################
+ament_export_dependencies(rosidl_default_runtime)
+ament_export_include_directories(include)
 ament_package()
