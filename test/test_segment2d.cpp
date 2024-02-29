@@ -267,7 +267,6 @@ TEST(Segment2DTest, comparisonOperators) {
   segment4.add_point(slg::Point2D(5.0, 6.0, slg::PERSON));
   segment4.add_point(slg::Point2D(7.0, 8.0, slg::PERSON));
   EXPECT_TRUE(segment3 != segment4);
-
 }
 
 int main(int argc, char ** argv)
