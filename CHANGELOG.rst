@@ -2,6 +2,11 @@
 Changelog for package slg_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.9.0 (29-02-2024)
+------------------
+* Improve formatting.
+* Added testing.
+
 3.8.0 (25-04-2023)
 ------------------
 * Prepare for humble release.
