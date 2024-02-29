@@ -25,3 +25,7 @@ jobs:
           package-name: slg_msgs
           target-ros2-distro: humble
           skip-tests: false
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
