@@ -51,6 +51,26 @@ TEST(EdgeTest, constructors) {
   EXPECT_DOUBLE_EQ(edge3.b.y, 4.0);
 }
 
+// Point inside
+TEST(EdgeTest, insidePoint) {
+  slg::Edge edge(slg::Point2D(0.0, 0.0, slg::BACKGROUND), slg::Point2D(2.0, 2.0, slg::BACKGROUND));
+  // P.y == a.y
+  slg::Point2D point1(0.0, 0.0, slg::BACKGROUND);
+  EXPECT_TRUE(edge(point1));
+  // P.y != a.y
+  slg::Point2D point2(0.0, 1.0, slg::BACKGROUND);
+  EXPECT_TRUE(edge(point2));
+  // P.y == b.y
+  slg::Point2D point3(0.0, 2.0, slg::BACKGROUND);
+  EXPECT_FALSE(edge(point3));
+  // P.y != b.y
+  slg::Point2D point4(0.0, 1.0, slg::BACKGROUND);
+  EXPECT_TRUE(edge(point4));
+  slg::Edge edge2(slg::Point2D(2.0, 2.0, slg::BACKGROUND), slg::Point2D(0.0, 0.0, slg::BACKGROUND));
+  slg::Point2D point5(1.0, 0.0, slg::BACKGROUND);
+  EXPECT_FALSE(edge2(point5));
+}
+
 // Dimensions for the Edge struct
 TEST(EdgeTest, dimensions) {
   // Check the distance between edge and point
@@ -72,16 +92,37 @@ TEST(EdgeTest, operators) {
   EXPECT_TRUE(edge(point));
   point = slg::Point2D(4.0, 5.0, slg::PERSON);
   EXPECT_FALSE(edge(point));
-  // Equality operator
+  // Equality operator when both edges are the same
   slg::Edge edge2(slg::Point2D(1.0, 2.0, slg::PERSON), slg::Point2D(3.0, 4.0, slg::PERSON));
   EXPECT_TRUE(edge == edge2);
+  // Equality operator when one of the points is different
+  edge2 = slg::Edge(slg::Point2D(0.0, 0.0, slg::PERSON), slg::Point2D(3.0, 4.0, slg::PERSON));
+  EXPECT_FALSE(edge == edge2);
+  // Equality operator when the other point is different
+  edge2 = slg::Edge(slg::Point2D(1.0, 2.0, slg::PERSON), slg::Point2D(0.0, 0.0, slg::PERSON));
+  EXPECT_FALSE(edge == edge2);
+  // Equality operator when both points are different
+  edge2 = slg::Edge(slg::Point2D(0.0, 0.0, slg::PERSON), slg::Point2D(0.0, 0.0, slg::PERSON));
+  EXPECT_FALSE(edge == edge2);
+  // Equality operator when both edges are the same (reverse order)
+  edge2 = slg::Edge(slg::Point2D(3.0, 4.0, slg::PERSON), slg::Point2D(1.0, 2.0, slg::PERSON));
+  EXPECT_TRUE(edge == edge2);
+  // Equality operator when the other point is different (reverse order)
+  edge2 = slg::Edge(slg::Point2D(0.0, 0.0, slg::PERSON), slg::Point2D(1.0, 2.0, slg::PERSON));
+  EXPECT_FALSE(edge == edge2);
+  // Equality operator when one of the points is different (reverse order)
+  edge2 = slg::Edge(slg::Point2D(3.0, 4.0, slg::PERSON), slg::Point2D(0.0, 0.0, slg::PERSON));
+  EXPECT_FALSE(edge == edge2);
   // Not equal operator
   slg::Edge edge3(slg::Point2D(1.0, 2.0, slg::PERSON), slg::Point2D(3.0, 4.0, slg::PERSON));
   slg::Edge edge4(slg::Point2D(5.0, 6.0, slg::PERSON), slg::Point2D(7.0, 8.0, slg::BACKGROUND));
   EXPECT_TRUE(edge3 != edge4);
-  // Assignment operator
+  // Assignment operator when both edges are the same
   slg::Edge edge5 = edge3;
   EXPECT_TRUE(edge5 == edge3);
+  // Assignment operator when both edges are different
+  edge5 = edge5;
+  EXPECT_TRUE(edge5 == edge5);
   // Stream operator
   std::stringstream ss;
   ss << edge;
@@ -135,9 +176,12 @@ TEST(PolygonTest, dimensions) {
   EXPECT_EQ(polygon.size(), 4);
   // Check if the polygon is empty
   EXPECT_FALSE(polygon.empty());
-  // Check if the polygon contains a point
+  // Check if the point is inside the polygon
   slg::Point2D point(0.5, 0.5, slg::PERSON);
   EXPECT_TRUE(polygon.contains(point));
+  // Check if the point is outside the polygon
+  point = slg::Point2D(2.0, 2.0, slg::PERSON);
+  EXPECT_FALSE(polygon.contains(point));
   // Get the centroid of the polygon
   slg::Point2D centroid = polygon.centroid();
   EXPECT_DOUBLE_EQ(centroid.x, 0.5);
@@ -154,6 +198,9 @@ TEST(PolygonTest, dimensions) {
   polygon.add_edge(edge);
   polygon.add_edge(edge2);
   polygon.add_edge(edge3);
+  polygon.close();
+  EXPECT_TRUE(polygon.is_closed());
+  // Close the polygon again
   polygon.close();
   EXPECT_TRUE(polygon.is_closed());
 }
@@ -197,15 +244,18 @@ TEST(PolygonTest, implicitConversionToGeometryMsgsPolygon) {
 
 // Check the assignment operators
 TEST(PolygonTest, assignmentOperators) {
-  // Check the operator assignment
   slg::Polygon polygon;
   polygon.add_point(slg::Point2D(1.0, 2.0, slg::PERSON));
   polygon.add_point(slg::Point2D(3.0, 4.0, slg::BACKGROUND));
   polygon.add_point(slg::Point2D(5.0, 6.0, slg::PERSON));
-  slg::Polygon polygon2(polygon);
+  // Check the operator assignment when the polygons are different
+  slg::Polygon polygon2;
+  polygon2 = polygon;
   EXPECT_TRUE(polygon == polygon2);
   polygon2.add_point(slg::Point2D(7.0, 8.0, slg::PERSON));
   EXPECT_FALSE(polygon == polygon2);
+  polygon2 = polygon2;
+  EXPECT_TRUE(polygon2 == polygon2);
   // Assignment operator for the geometry_msgs::msg::Polygon
   slg::Polygon polygon3;
   geometry_msgs::msg::Polygon polygon_msg;
@@ -233,6 +283,7 @@ TEST(PolygonTest, assignmentOperators) {
 TEST(PolygonTest, comparisonOperators) {
   // Check the operator equal
   slg::Polygon polygon;
+  polygon.set_name("test");
   slg::Edge edge(slg::Point2D(1.0, 2.0, slg::PERSON), slg::Point2D(3.0, 4.0, slg::PERSON));
   slg::Edge edge2(slg::Point2D(5.0, 6.0, slg::PERSON), slg::Point2D(7.0, 8.0, slg::PERSON));
   slg::Edge edge3(slg::Point2D(9.0, 10.0, slg::PERSON), slg::Point2D(11.0, 12.0, slg::PERSON));
@@ -243,6 +294,7 @@ TEST(PolygonTest, comparisonOperators) {
   polygon2.add_edge(edge);
   polygon2.add_edge(edge2);
   polygon2.add_edge(edge3);
+  polygon2.set_name("test");
   EXPECT_TRUE(polygon == polygon2);
   // Check the operator not equal
   slg::Polygon polygon3;
@@ -255,7 +307,14 @@ TEST(PolygonTest, comparisonOperators) {
   // Stream operator for the Polygon struct
   std::stringstream ss;
   ss << polygon;
-  EXPECT_EQ(ss.str(), "Polygon: \n(1, 2) -> (3, 4)\n(5, 6) -> (7, 8)\n(9, 10) -> (11, 12)\n");
+  std::cout << ss.str() << std::endl;
+  EXPECT_EQ(ss.str(), "Polygon: test\n(1, 2) -> (3, 4)\n(5, 6) -> (7, 8)\n(9, 10) -> (11, 12)\n");
+  // Print an empty polygon
+  slg::Polygon polygon4;
+  std::stringstream ss2;
+  ss2 << polygon4;
+  std::cout << ss2.str() << std::endl;
+  EXPECT_EQ(ss2.str(), "Polygon: \n");
 }
 
 int main(int argc, char ** argv)
