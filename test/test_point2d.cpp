@@ -57,13 +57,32 @@ TEST(Point2DTest, constructors) {
 // NaN and is_NaN
 TEST(Point2DTest, NaN) {
   // Not a number
-  slg::Point2D point2 = slg::Point2D::quiet_NaN();
-  EXPECT_TRUE(std::isnan(point2.x));
+  slg::Point2D point = slg::Point2D(std::numeric_limits<double>::quiet_NaN(), 1.0);
+  EXPECT_TRUE(std::isnan(point.x));
+  EXPECT_FALSE(std::isnan(point.y));
+  // Check if is NaN
+  EXPECT_TRUE(point.isnan());
+
+  // Also not a number
+  slg::Point2D point2 = slg::Point2D(1.0, std::numeric_limits<double>::quiet_NaN());
+  EXPECT_FALSE(std::isnan(point2.x));
   EXPECT_TRUE(std::isnan(point2.y));
   // Check if is NaN
   EXPECT_TRUE(point2.isnan());
-  point2.x = 1.0;
-  EXPECT_TRUE(point2.isnan());
+
+  // Not a number
+  slg::Point2D point3 = slg::Point2D::quiet_NaN();
+  EXPECT_TRUE(std::isnan(point3.x));
+  EXPECT_TRUE(std::isnan(point3.y));
+  // Check if is NaN
+  EXPECT_TRUE(point3.isnan());
+
+  // This is a number
+  slg::Point2D point4 = slg::Point2D(1.0, 1.0);
+  EXPECT_FALSE(std::isnan(point4.x));
+  EXPECT_FALSE(std::isnan(point4.y));
+  // Check if is NaN
+  EXPECT_FALSE(point4.isnan());
 }
 
 // Check dimensions
@@ -94,15 +113,19 @@ TEST(Point2DTest, geometry) {
   slg::Point2D point2 = point.normalized();
   EXPECT_DOUBLE_EQ(point2.x, 3.0 / 5.0);
   EXPECT_DOUBLE_EQ(point2.y, 4.0 / 5.0);
+  // Check the point is normalized when the length is zero
+  slg::Point2D point3 = slg::Point2D(0.0, 0.0).normalized();
+  EXPECT_DOUBLE_EQ(point3.x, 0.0);
+  EXPECT_DOUBLE_EQ(point3.y, 0.0);
   // Check the point reflected
   slg::Point2D normal(1.0, 0.0);
-  slg::Point2D point3 = point.reflected(normal);
-  EXPECT_DOUBLE_EQ(point3.x, -3.0);
-  EXPECT_DOUBLE_EQ(point3.y, 4.0);
+  slg::Point2D point4 = point.reflected(normal);
+  EXPECT_DOUBLE_EQ(point4.x, -3.0);
+  EXPECT_DOUBLE_EQ(point4.y, 4.0);
   // Check the point perpendicular
-  slg::Point2D point4 = point.perpendicular();
-  EXPECT_DOUBLE_EQ(point4.x, -4.0);
-  EXPECT_DOUBLE_EQ(point4.y, 3.0);
+  slg::Point2D point5 = point.perpendicular();
+  EXPECT_DOUBLE_EQ(point5.x, -4.0);
+  EXPECT_DOUBLE_EQ(point5.y, 3.0);
 }
 
 // Check the arithmetic operators
@@ -129,6 +152,10 @@ TEST(Point2DTest, arithmeticOperators) {
   point3 = point / 2.0;
   EXPECT_DOUBLE_EQ(point3.x, 0.5);
   EXPECT_DOUBLE_EQ(point3.y, 0.5);
+  // Check the operator division by zero
+  point3 = point / 0.0;
+  EXPECT_TRUE(std::isnan(point3.x));
+  EXPECT_TRUE(std::isnan(point3.y));
   // Check the operator unary minus
   point3 = -point;
   EXPECT_DOUBLE_EQ(point3.x, -1.0);
@@ -159,6 +186,10 @@ TEST(Point2DTest, assignmentOperators) {
   slg::Point2D point(1.0, 1.0);
   slg::Point2D point2;
   point2 = point;
+  EXPECT_DOUBLE_EQ(point2.x, 1.0);
+  EXPECT_DOUBLE_EQ(point2.y, 1.0);
+  // Check the operator assignment when the points are the same
+  point2 = point2;
   EXPECT_DOUBLE_EQ(point2.x, 1.0);
   EXPECT_DOUBLE_EQ(point2.y, 1.0);
   // Check the operator addition assignment
@@ -209,8 +240,12 @@ TEST(Point2DTest, comparisonOperators) {
   EXPECT_TRUE(point3 >= point2);
   EXPECT_TRUE(point3 >= point);
   // Check the operator not
-  slg::Point2D point4(0.0, 0.0);
-  EXPECT_TRUE(!point4);
+  slg::Point2D point4(1.0, 0.0);
+  EXPECT_FALSE(!point4);
+  slg::Point2D point5(0.0, 1.0);
+  EXPECT_FALSE(!point5);
+  slg::Point2D point6(0.0, 0.0);
+  EXPECT_TRUE(!point6);
   // Check the operator output stream
   std::stringstream ss;
   ss << point;

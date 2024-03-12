@@ -129,6 +129,11 @@ TEST(Segment2DTest, dimensions) {
   EXPECT_DOUBLE_EQ(segment.mean_angle(), 0.46364760900080609);
   // Check the orientation of the segment
   EXPECT_DOUBLE_EQ(segment.orientation(), -2.4980915447965089);
+  // Check the orientation of the segment when the vector is horizontal
+  slg::Segment2D segment2;
+  segment2.add_point(slg::Point2D(0.0, 0.0));
+  segment2.add_point(slg::Point2D(2.0, 0.0));
+  EXPECT_DOUBLE_EQ(segment2.orientation(), 0.0);
   // Projection of the segment
   slg::Point2D point(1.0, 1.0);
   slg::Point2D projection = segment.projection(point);
@@ -155,9 +160,11 @@ TEST(Segment2DTest, mergeAndSplitting) {
   slg::Segment2D segment1;
   segment1.add_point(slg::Point2D(0.0, 0.0));
   segment1.add_point(slg::Point2D(3.0, 4.0));
+  segment1.set_label(slg::PERSON);
   slg::Segment2D segment2;
   segment2.add_point(slg::Point2D(5.0, 6.0));
   segment2.add_point(slg::Point2D(7.0, 8.0));
+  segment2.set_label(slg::PERSON);
   segment1.merge(segment2);
   EXPECT_DOUBLE_EQ(segment1.size(), 4);
   EXPECT_DOUBLE_EQ(segment1.get_points()[0].x, 0.0);
@@ -168,6 +175,18 @@ TEST(Segment2DTest, mergeAndSplitting) {
   EXPECT_DOUBLE_EQ(segment1.get_points()[2].y, 6.0);
   EXPECT_DOUBLE_EQ(segment1.get_points()[3].x, 7.0);
   EXPECT_DOUBLE_EQ(segment1.get_points()[3].y, 8.0);
+  // Merge two segments with different labels
+  slg::Segment2D segment3;
+  segment3.add_point(slg::Point2D(0.0, 0.0));
+  segment3.add_point(slg::Point2D(3.0, 4.0));
+  segment3.set_label(slg::PERSON);
+  slg::Segment2D segment4;
+  segment4.add_point(slg::Point2D(5.0, 6.0));
+  segment4.add_point(slg::Point2D(7.0, 8.0));
+  segment4.set_label(slg::BACKGROUND);
+  segment3.merge(segment4);
+  EXPECT_DOUBLE_EQ(segment3.size(), 4);
+  EXPECT_EQ(segment3.get_label(), slg::BACKGROUND);
   // Split the segment
   slg::Segment2D left_segment = segment1.left_split(2);
   EXPECT_DOUBLE_EQ(left_segment.size(), 2);
@@ -215,10 +234,14 @@ TEST(Segment2DTest, assignmentOperators) {
   segment.add_point(slg::Point2D(1.0, 2.0, slg::PERSON));
   segment.add_point(slg::Point2D(3.0, 4.0, slg::BACKGROUND));
   segment.add_point(slg::Point2D(5.0, 6.0, slg::PERSON));
-  slg::Segment2D segment2(segment);
+  slg::Segment2D segment2 = segment;
   EXPECT_TRUE(segment == segment2);
   segment2.add_point(slg::Point2D(7.0, 8.0, slg::PERSON));
   EXPECT_FALSE(segment == segment2);
+  // Check the operator assignment when the segments are the same
+  segment2 = segment2;
+  EXPECT_FALSE(segment == segment2);
+  EXPECT_TRUE(segment2 == segment2);
   // Assignment operator for the slg_msgs::msg::Segment
   slg::Segment2D segment3;
   slg_msgs::msg::Segment segment_msg;

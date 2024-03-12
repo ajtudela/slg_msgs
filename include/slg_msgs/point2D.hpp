@@ -84,7 +84,7 @@ struct Point2D
   friend Point2D operator*(const Point2D & p, const double f) {return Point2D(f * p.x, f * p.y);}
   friend Point2D operator/(const Point2D & p, const double f)
   {
-    return (f != 0.0) ? Point2D(p.x / f, p.y / f) : Point2D();
+    return (f != 0.0) ? Point2D(p.x / f, p.y / f) : Point2D::quiet_NaN();
   }
 
   Point2D operator-() {return Point2D(-x, -y);}
