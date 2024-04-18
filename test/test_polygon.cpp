@@ -54,21 +54,33 @@ TEST(EdgeTest, constructors) {
 // Point inside
 TEST(EdgeTest, insidePoint) {
   slg::Edge edge(slg::Point2D(0.0, 0.0, slg::BACKGROUND), slg::Point2D(2.0, 2.0, slg::BACKGROUND));
-  // P.y == a.y
-  slg::Point2D point1(0.0, 0.0, slg::BACKGROUND);
-  EXPECT_TRUE(edge(point1));
-  // P.y != a.y
-  slg::Point2D point2(0.0, 1.0, slg::BACKGROUND);
-  EXPECT_TRUE(edge(point2));
-  // P.y == b.y
-  slg::Point2D point3(0.0, 2.0, slg::BACKGROUND);
-  EXPECT_FALSE(edge(point3));
-  // P.y != b.y
-  slg::Point2D point4(0.0, 1.0, slg::BACKGROUND);
-  EXPECT_TRUE(edge(point4));
-  slg::Edge edge2(slg::Point2D(2.0, 2.0, slg::BACKGROUND), slg::Point2D(0.0, 0.0, slg::BACKGROUND));
-  slg::Point2D point5(1.0, 0.0, slg::BACKGROUND);
-  EXPECT_FALSE(edge2(point5));
+  // Point inside the edge
+  slg::Point2D point(1.0, 1.0, slg::BACKGROUND);
+  EXPECT_TRUE(edge(point));
+  // Point outside the edge
+  point = slg::Point2D(3.0, 3.0, slg::BACKGROUND);
+  EXPECT_FALSE(edge(point));
+  // Point on the edge (a) (P.y == a.y)
+  point = slg::Point2D(0.0, 0.0, slg::BACKGROUND);
+  EXPECT_TRUE(edge(point));
+  // Point on the edge (b) (P.y == b.y)
+  point = slg::Point2D(2.0, 2.0, slg::BACKGROUND);
+  EXPECT_FALSE(edge(point));
+  // P.y != a.y && P.y != b.y
+  point = slg::Point2D(1.0, 1.5, slg::BACKGROUND);
+  EXPECT_TRUE(edge(point));
+  // P.x > max(a.x, b.x)
+  point = slg::Point2D(3.0, 3.0, slg::BACKGROUND);
+  EXPECT_FALSE(edge(point));
+  // P.x < min(a.x, b.x)
+  point = slg::Point2D(-1.0, -1.0, slg::BACKGROUND);
+  EXPECT_FALSE(edge(point));
+  // blue >= red
+  point = slg::Point2D(0.5, 0.5, slg::BACKGROUND);
+  EXPECT_TRUE(edge(point));
+  // blue < red
+  point = slg::Point2D(1.5, 0.5, slg::BACKGROUND);
+  EXPECT_FALSE(edge(point));
 }
 
 // Dimensions for the Edge struct
