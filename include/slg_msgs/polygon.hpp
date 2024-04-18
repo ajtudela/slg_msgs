@@ -127,13 +127,13 @@ public:
 
   ~Polygon() {}
 
-  int size()                                              const {return edges.size();}
-  bool empty()                                    const {return edges.empty();}
+  int size() const {return edges.size();}
+  bool empty() const {return edges.empty();}
   void clear() {edges.clear(); name.clear();}
-  std::string get_name()                  const {return name;}
+  std::string get_name() const {return name;}
   void set_name(std::string new_name) {name = new_name;}
-  std::vector<Edge> get_edges()   const {return edges;}
-  Edge get_edge(int e)                    const {return edges[e];}
+  std::vector<Edge> get_edges() const {return edges;}
+  Edge get_edge(int e) const {return edges[e];}
   void add_edge(Edge edge) {edges.push_back(edge);}
 
   bool contains(const Point2D & p) const
@@ -170,14 +170,10 @@ public:
     // If the polygon is empty, add the first edge as a self edge
     if (edges.empty()) {
       edges.push_back(Edge(p, p));
-      std::cout << "Empty polygon" << std::endl;
     } else {
       // If the last edge is a self edge, add a new point to it
       if (edges.back().self()) {
-        std::cout << "Self edge" << std::endl;
         edges.back().b = p;
-        std::cout << "Size: " << edges.size() << std::endl;
-        std::cout << "size poin" << get_points().size() << std::endl;
       } else {
         // If the polygon is closed, remove the last edge
         if (is_closed()) {
