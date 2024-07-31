@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "gtest/gtest.h"
+#include "geometry_msgs/msg/point.hpp"
 #include "slg_msgs/point2D.hpp"
 
 // Default constructor, constructor with values and copy constructor

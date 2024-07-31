@@ -66,33 +66,26 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   DEPENDENCIES std_msgs geometry_msgs
 )
 
-add_library(${PROJECT_NAME}_includes INTERFACE)
-target_include_directories(${PROJECT_NAME}_includes INTERFACE
+set(library_name slg_core)
+
+add_library(${library_name} INTERFACE)
+target_include_directories(${library_name} INTERFACE
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:include>"
-)
-
-# ##########
-# # Build ##
-# ##########
-# # Specify additional locations of header files
-# # Your package locations should be listed before other locations
-include_directories(
-  include
 )
 
 # ############
 # # Install ##
 # ############
-install(DIRECTORY include/${PROJECT_NAME}/
+install(DIRECTORY include/
   DESTINATION include/${PROJECT_NAME}
-  FILES_MATCHING PATTERN "*.hpp"
-
-  # PATTERN ".svn" EXCLUDE
 )
 
-install(TARGETS ${PROJECT_NAME}_includes
-  EXPORT export_${PROJECT_NAME}
+install(TARGETS ${library_name}
+  EXPORT ${library_name}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
 )
 
 # ############
@@ -110,7 +103,11 @@ endif()
 # ##################################
 # # ament specific configuration ##
 # ##################################
-ament_export_include_directories(include)
-ament_export_targets(export_${PROJECT_NAME})
-ament_export_dependencies(rosidl_default_runtime)
+ament_export_include_directories(include/${PROJECT_NAME})
+ament_export_dependencies(
+  geometry_msgs
+  std_msgs
+  rosidl_default_runtime
+)
+ament_export_targets(${library_name})
 ament_package()

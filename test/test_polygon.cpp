@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #include "gtest/gtest.h"
+#include "geometry_msgs/msg/polygon.hpp"
+#include "geometry_msgs/msg/point32.hpp"
 #include "slg_msgs/polygon.hpp"
 
 slg::Polygon square()
