@@ -2,6 +2,10 @@
 Changelog for package slg_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.9.1 (31-07-2024)
+------------------
+* Update to use modern CMake idioms.
+
 3.9.0 (29-02-2024)
 ------------------
 * Improve formatting.

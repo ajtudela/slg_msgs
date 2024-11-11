@@ -15,4 +15,4 @@ This package provides classes and messages to interact with laser related geomet
 
 ## Messages (.msg)
 * [Segment](msg/Segment.msg): Describes a laserscan splitted in segment.
-* [SegmentArray](msg/BatteryState.msg): An array of Segment messages.
+* [SegmentArray](msg/SegmentArray.msg): An array of Segment messages.

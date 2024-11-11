@@ -29,9 +29,9 @@ TEST(Segment2DTest, constructors) {
   EXPECT_DOUBLE_EQ(segment1.get_last_centroid().x, 0.0);
   EXPECT_DOUBLE_EQ(segment1.get_last_centroid().y, 0.0);
   // Constructor with values
-  slg::Segment2D segment2(1, slg::Point2D(1.0, 2.0, slg::PERSON), slg::Point2D(
-      3.0, 4.0,
-      slg::PERSON),
+  slg::Segment2D segment2(1,
+    slg::Point2D(1.0, 2.0, slg::PERSON),
+    slg::Point2D(3.0, 4.0, slg::PERSON),
     slg::Point2D(5.0, 6.0, slg::PERSON));
   EXPECT_EQ(segment2.get_id(), 1);
   EXPECT_EQ(segment2.get_label(), slg::BACKGROUND);
