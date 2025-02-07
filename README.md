@@ -16,3 +16,32 @@ This package provides classes and messages to interact with laser related geomet
 ## Messages (.msg)
 * [Segment](msg/Segment.msg): Describes a laserscan splitted in segment.
 * [SegmentArray](msg/SegmentArray.msg): An array of Segment messages.
+
+## Installation
+
+### Binaries
+
+On Ubuntu 24.04 you can install the latest version of this package using the following command
+
+```bash
+sudo apt-get update
+sudo apt-get install ros-jazzy-slg-msgs
+```
+
+### Building from Source
+
+#### Dependencies
+
+- [Robot Operating System (ROS) 2](https://docs.ros.org/en/jazzy/) (middleware for robotics),
+
+#### Building
+
+To build from source, clone the latest version from the main repository into your colcon workspace and compile the package using
+
+```bash
+cd colcon_workspace/src
+git clone https://github.com/ajtudela/slg_msgs.git -b jazzy
+cd ../
+rosdep install -i --from-path src --rosdistro jazzy -y
+colcon build --symlink-install
+```
