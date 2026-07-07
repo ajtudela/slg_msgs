@@ -61,7 +61,10 @@ public:
     last_point_prior_seg(segment_msg.last_point_prior_segment),
     first_point_next_seg(segment_msg.first_point_next_segment)
   {
-    points.insert(points.begin(), std::begin(segment_msg.points), std::end(segment_msg.points));
+    points.reserve(segment_msg.points.size());
+    for (const auto & point : segment_msg.points) {
+      points.emplace_back(point);
+    }
     last_centroid = centroid();
   }
 
